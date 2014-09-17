@@ -17,13 +17,12 @@
 
 - (void)dealloc
 {
-    [URL release], URL = nil;
-    [URLResponse release], URLResponse = nil;
-    [completionHandler release], completionHandler = nil;
-    [errorHandler release], errorHandler = nil;
-    [responseData release], responseData = nil;
-    [URLConnection release], URLConnection = nil;
-    [super dealloc];
+    URL = nil;
+    URLResponse = nil;
+    completionHandler = nil;
+    errorHandler = nil;
+    responseData = nil;
+    URLConnection = nil;
 }
 
 - (id)initWithURL:(NSURL *)aURL
@@ -33,7 +32,7 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 {
     if( ( self = [super init] ) != nil )
     {
-        URL = [aURL retain];
+        URL = aURL;
         options = parserOptions;
         completionHandler = [cHandler copy];
         errorHandler = [eHandler copy];
@@ -67,8 +66,8 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)render
 {
     // set up the url connection
-    URLConnection = [[NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:URL]
-                                                   delegate:self] retain];
+    URLConnection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:URL]
+                                                   delegate:self];
     [URLConnection start];
 }
 
@@ -83,7 +82,7 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)connection:(NSURLConnection *)connection
 didReceiveResponse:(NSURLResponse *)response
 {
-    URLResponse = [response retain];
+    URLResponse = response;
     dataLength = [response expectedContentLength];
 }
 
@@ -115,8 +114,8 @@ didReceiveResponse:(NSURLResponse *)response
         // some sites might not be UTF8, so try until nil
         for( NSInteger i = 0; i < sizeof( encodings ) / sizeof( NSInteger ); i++ )
         {
-            if( ( str = [[[NSString alloc] initWithData:responseData
-                                               encoding:encodings[i]] autorelease] ) != nil )
+            if( ( str = [[NSString alloc] initWithData:responseData
+                                              encoding:encodings[i]] ) != nil )
             {
                 break;
             }
@@ -158,10 +157,10 @@ didReceiveResponse:(NSURLResponse *)response
     for( NSString *s in types )
     {
         if ([s isEqualToString:@"HTML"]) {
-            XML = [[[GDataXMLDocument alloc] initWithHTMLString:string error:&error] autorelease];
+            XML = [[GDataXMLDocument alloc] initWithHTMLString:string error:&error];
         }
         else if ([s isEqualToString:@"XML"]) {
-            XML = [[[GDataXMLDocument alloc] initWithXMLString:string error:&error] autorelease];
+            XML = [[GDataXMLDocument alloc] initWithXMLString:string error:&error];
         }
         
         // find the body tag
@@ -196,7 +195,7 @@ didReceiveResponse:(NSURLResponse *)response
 
     // now we have the base element to work with, lets remove all div's that dont have a parent of a p
     
-    NSMutableArray * elementsToRemove = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray * elementsToRemove = [[NSMutableArray alloc] init];
     
     // remove divs
     if( options & GGReadabilityParserOptionRemoveDivs )
@@ -234,7 +233,7 @@ didReceiveResponse:(NSURLResponse *)response
     {
         for( NSInteger i = 2; i <= 6; i++ )
         {
-            [elementsToRemove addObject:[NSString stringWithFormat:@"h%ld",i]];
+            [elementsToRemove addObject:[NSString stringWithFormat:@"h%ld",(long)i]];
         }
     }
     
@@ -372,8 +371,8 @@ didReceiveResponse:(NSURLResponse *)response
     NSData * data = [[element XMLString] dataUsingEncoding:NSUTF8StringEncoding
                                       allowLossyConversion:YES];
     
-    NSString * returnContents = [[[NSString alloc] initWithData:data
-                                                       encoding:NSUTF8StringEncoding] autorelease];
+    NSString * returnContents = [[NSString alloc] initWithData:data
+                                                      encoding:NSUTF8StringEncoding];
     
     // tell our handler :-)
     dispatch_async( dispatch_get_main_queue(), ^(void)
@@ -520,7 +519,7 @@ didReceiveResponse:(NSURLResponse *)response
         NSArray * elements = [element nodesForXPath:@"//*"
                                               error:&error];
         
-        NSMutableDictionary * scoreDict = [[[NSMutableDictionary alloc] init] autorelease];
+        NSMutableDictionary * scoreDict = [[NSMutableDictionary alloc] init];
     
         GDataXMLElement * currentElement = nil;
     

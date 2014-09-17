@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'GDataXML-HTML' do |sp|
     sp.source_files = 'Pod/GDataXML-HTML'
-	sp.requires_arc = false
+	sp.requires_arc = true
     sp.libraries = 'xml2'
     sp.xcconfig = {
       'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
