@@ -1,0 +1,9 @@
+target 'DZReadability', :exclusive => true do
+  pod "DZReadability", :path => "../"
+end
+
+target 'Tests', :exclusive => true do
+  pod "DZReadability", :path => "../"
+
+  pod 'Kiwi'
+end
