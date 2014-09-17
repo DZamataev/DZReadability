@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  DZReadability: 5f69a955b27d1cfda8cf14fdcab4a7cbf36c6065
+  DZReadability: d76233be2b4570220cc46aa63a83eeaed81cf8b9
   Kiwi: 54bece5b35564d9b8e03c608d926f1a22fcfc589
 
 COCOAPODS: 0.33.1

@@ -27,6 +27,8 @@ Pod::Spec.new do |s|
   
   s.default_subspec = 'Core'
   
+  s.requires_arc = true
+  
   s.subspec 'Core' do |c|
     c.source_files = 'Pod/Classes'
     c.resource_bundles = {
