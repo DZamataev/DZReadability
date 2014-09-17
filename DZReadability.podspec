@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   
   s.subspec 'GDataXML-HTML' do |sp|
-    sp.source_files = 'pod/GDataXML-HTML/**/*.h'
+    sp.source_files = 'Pod/GDataXML-HTML/**/*.h'
 	sp.requires_arc = false
 	sp.compiler_flags = '-fno-objc-arc'
     sp.libraries = 'xml2'
