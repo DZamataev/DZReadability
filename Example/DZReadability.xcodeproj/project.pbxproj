@@ -24,10 +24,6 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		6D56B2F170C64457A4290C07 /* libPods-DZReadability.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A418E81E67D34ED1A6341CDC /* libPods-DZReadability.a */; };
-		921BFFE619C9DC5700D5B4DF /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 921BFFE119C9DC5700D5B4DF /* .gitkeep */; };
-		921BFFE719C9DC5700D5B4DF /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 921BFFE319C9DC5700D5B4DF /* .gitkeep */; };
-		921BFFE819C9DC5700D5B4DF /* GGReadabilityParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 921BFFE519C9DC5700D5B4DF /* GGReadabilityParser.m */; };
-		921BFFEB19C9DD1C00D5B4DF /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 921BFFEA19C9DD1C00D5B4DF /* GDataXMLNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,12 +61,6 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		921BFFE119C9DC5700D5B4DF /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		921BFFE319C9DC5700D5B4DF /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		921BFFE419C9DC5700D5B4DF /* GGReadabilityParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGReadabilityParser.h; sourceTree = "<group>"; };
-		921BFFE519C9DC5700D5B4DF /* GGReadabilityParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGReadabilityParser.m; sourceTree = "<group>"; };
-		921BFFE919C9DD1C00D5B4DF /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
-		921BFFEA19C9DD1C00D5B4DF /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		A418E81E67D34ED1A6341CDC /* libPods-DZReadability.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DZReadability.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1759C3D16A4C94AFC46994 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		B734CC4C096B4B5286ACF178 /* DZReadability.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DZReadability.podspec; path = ../DZReadability.podspec; sourceTree = "<group>"; };
@@ -106,7 +96,6 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
-				921BFFDF19C9DC5700D5B4DF /* Pod */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* DZReadability */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -194,36 +183,6 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		921BFFDF19C9DC5700D5B4DF /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				921BFFE019C9DC5700D5B4DF /* Assets */,
-				921BFFE219C9DC5700D5B4DF /* Classes */,
-			);
-			name = Pod;
-			path = ../Pod;
-			sourceTree = "<group>";
-		};
-		921BFFE019C9DC5700D5B4DF /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				921BFFE119C9DC5700D5B4DF /* .gitkeep */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
-		921BFFE219C9DC5700D5B4DF /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				921BFFE319C9DC5700D5B4DF /* .gitkeep */,
-				921BFFE919C9DD1C00D5B4DF /* GDataXMLNode.h */,
-				921BFFEA19C9DD1C00D5B4DF /* GDataXMLNode.m */,
-				921BFFE419C9DC5700D5B4DF /* GGReadabilityParser.h */,
-				921BFFE519C9DC5700D5B4DF /* GGReadabilityParser.m */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -307,8 +266,6 @@
 			files = (
 				6003F5A4195388D20070C39A /* Main_iPad.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				921BFFE619C9DC5700D5B4DF /* .gitkeep in Resources */,
-				921BFFE719C9DC5700D5B4DF /* .gitkeep in Resources */,
 				6003F5A1195388D20070C39A /* Main_iPhone.storyboard in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -393,8 +350,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* DZAppDelegate.m in Sources */,
-				921BFFE819C9DC5700D5B4DF /* GGReadabilityParser.m in Sources */,
-				921BFFEB19C9DD1C00D5B4DF /* GDataXMLNode.m in Sources */,
 				6003F5A7195388D20070C39A /* DZViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);

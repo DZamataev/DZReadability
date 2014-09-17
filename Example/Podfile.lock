@@ -1,5 +1,9 @@
 PODS:
-  - DZReadability (0.1.0)
+  - DZReadability (0.1.0):
+    - DZReadability/Core
+  - DZReadability/Core (0.1.0):
+    - DZReadability/GDataXML-HTML
+  - DZReadability/GDataXML-HTML (0.1.0)
   - Kiwi (2.3.0)
 
 DEPENDENCIES:
@@ -11,7 +15,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  DZReadability: ff38668690de9546a4341ed04d7d878116e1039c
+  DZReadability: 5f69a955b27d1cfda8cf14fdcab4a7cbf36c6065
   Kiwi: 54bece5b35564d9b8e03c608d926f1a22fcfc589
 
 COCOAPODS: 0.33.1

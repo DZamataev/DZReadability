@@ -24,24 +24,21 @@ Pod::Spec.new do |s|
   s.social_media_url = 'https://twitter.com/dzamataev'
 
   s.platform     = :ios, '7.0'
-  s.requires_arc = true
-
-  s.source_files = 'Pod/Classes'
-  s.resource_bundles = {
-    'DZReadability' => ['Pod/Assets/*.png']
-  }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
   
-
-  s.requires_arc = true
+  s.default_subspec = 'Core'
   
+  s.subspec 'Core' do |c|
+    c.source_files = 'Pod/Classes'
+    c.resource_bundles = {
+      'DZReadability' => ['Pod/Assets/*.png']
+    }
+    c.requires_arc = true
+	c.dependency 'DZReadability/GDataXML-HTML'
+  end
+
   s.subspec 'GDataXML-HTML' do |sp|
-    sp.source_files = 'Pod/GDataXML-HTML/**/*.h'
+    sp.source_files = 'Pod/GDataXML-HTML'
 	sp.requires_arc = false
-	sp.compiler_flags = '-fno-objc-arc'
     sp.libraries = 'xml2'
     sp.xcconfig = {
       'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
