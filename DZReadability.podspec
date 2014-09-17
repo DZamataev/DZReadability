@@ -35,9 +35,16 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   
-  s.libraries = 'xml2'
-  s.xcconfig = {
-    'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
-  }
+
   s.requires_arc = true
+  
+  s.subspec 'GDataXML-HTML' do |sp|
+    sp.source_files = 'pod/GDataXML-HTML/**/*.h'
+	sp.requires_arc = false
+	sp.compiler_flags = '-fno-objc-arc'
+    sp.libraries = 'xml2'
+    sp.xcconfig = {
+      'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
+    }
+  end
 end
