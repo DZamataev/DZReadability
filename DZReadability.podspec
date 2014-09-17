@@ -35,9 +35,9 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   
-  "libraries": "xml2",
-  "xcconfig": {
-    "HEADER_SEARCH_PATHS": "$(SDKROOT)/usr/include/libxml2"
-  },
-  "requires_arc": true
+  s.libraries = 'xml2'
+  s.xcconfig = {
+    'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
+  }
+  s.requires_arc = true
 end
