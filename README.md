@@ -49,6 +49,8 @@ it, simply add the following line to your Podfile:
 
 Denis Zamataev, denis.zamataev@gmail.com
 
+Curtis Hard, https://github.com/curthard89
+
 ## License
 
 DZReadability is available under the MIT license. See the LICENSE file for more info.
