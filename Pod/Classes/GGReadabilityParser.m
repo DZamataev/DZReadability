@@ -353,7 +353,7 @@ didReceiveResponse:(NSURLResponse *)response
                 [[[attribute stringValue] substringToIndex:2] isEqualToString:@"//"] )
             {
                 // needs fixing
-                NSString * newAttributeString = [NSString stringWithFormat:@"%@%@",[baseURL scheme],[attribute stringValue]];
+                NSString * newAttributeString = [NSString stringWithFormat:@"%@:%@",[baseURL scheme],[attribute stringValue]];
                 [attribute setStringValue:newAttributeString];
             }
             else if( [[attribute stringValue] length] != 0 &&
@@ -362,6 +362,39 @@ didReceiveResponse:(NSURLResponse *)response
                 // needs fixing
                 NSString * newAttributeString = [NSString stringWithFormat:@"%@%@",baseURLString,[attribute stringValue]];
                 [attribute setStringValue:newAttributeString];
+            }
+        }
+    }
+    
+    if ( options & GGReadabilityParserOptionDownloadImages )
+    {
+        // grab images
+        NSArray * els = [element nodesForXPath:@"//img" error:&error];
+        
+        for ( GDataXMLElement * fixEl in els ) {
+            GDataXMLNode * attribute = [fixEl attributeForName:@"src"];
+            NSString * urlString = [attribute stringValue];
+            NSURL * url = [NSURL URLWithString:urlString];
+            if ( url ) {
+                // download image
+                NSError *downloadError = nil;
+                
+                NSData * imageData = [NSData dataWithContentsOfURL:url options:0 error:&downloadError];
+                if (downloadError) {
+                    NSLog(@"Error: %@", downloadError);
+                }
+                
+                if (!self.downloadedImages) {
+                    self.downloadedImages = [NSMutableDictionary new];
+                }
+                
+                NSString *urlSH1Hash = [[self class] sha1:urlString];
+                
+                NSString *hashWithExtension = [urlSH1Hash stringByAppendingPathExtension:urlString.pathExtension];
+                
+                [self.downloadedImages setValue:imageData forKey:hashWithExtension];
+                
+                [attribute setStringValue:hashWithExtension];
             }
         }
     }
@@ -569,6 +602,24 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     return score;
+}
+
++ (NSString*)sha1:(NSString*)input
+{
+    const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:cstr length:input.length];
+    
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1(data.bytes, data.length, digest);
+    
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    return output;
+    
 }
 
 @end

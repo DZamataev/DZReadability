@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "GDataXMLNode.h"
+#import <CommonCrypto/CommonDigest.h>
 
 
 typedef void (^GGReadabilityParserCompletionHandler)( NSString * content );
@@ -20,7 +21,8 @@ enum {
     GGReadabilityParserOptionFixImages = 1 << 8,
     GGReadabilityParserOptionFixLinks = 1 << 9,
     GGReadabilityParserOptionClearStyles = 1 << 10,
-    GGReadabilityParserOptionClearLinkLists = 1 << 11
+    GGReadabilityParserOptionClearLinkLists = 1 << 11,
+    GGReadabilityParserOptionDownloadImages = 1 << 12
 }; 
 typedef NSInteger GGReadabilityParserOptions;
 
@@ -41,6 +43,8 @@ typedef NSInteger GGReadabilityParserOptions;
 }
 
 @property ( nonatomic, assign ) float loadProgress;
+
+@property ( nonatomic, strong ) NSDictionary *downloadedImages;
 
 - (id)initWithURL:(NSURL *)aURL
           options:(GGReadabilityParserOptions)parserOptions
