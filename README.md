@@ -32,7 +32,7 @@ If you want to check the load progress of it then you can simply check the loadP
 
 If you already got the contents which you want to parse you can call
 ```
-NSString *html = [self.webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]; // or any other html as string
+NSString *html = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]; // or any other html as string
 [readability renderWithString:html];
 ```
 
