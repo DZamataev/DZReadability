@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5023" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="V58-aJ-pe8">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--class Prefix:identifier View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="Aau-L4-kjU">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="V58-aJ-pe8" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="4rn-8X-uFa">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="Of3-Tf-J2e"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6vp-X6-JZf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="167" y="330"/>
+        </scene>
+        <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="DZViewController" sceneMemberID="viewController">
@@ -13,13 +28,131 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKO-Dj-9SX">
+                                <rect key="frame" x="248" y="290" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1dl-0n-xZb">
+                                <rect key="frame" x="76" y="246" width="164" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Parse text as URL">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="iU8-Ms-X7s" kind="push" identifier="parseAsURL" id="Zfn-Lp-HfL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hke-2L-Yqf">
+                                <rect key="frame" x="77" y="208" width="162" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Parse text as HTML">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="iU8-Ms-X7s" kind="push" identifier="parseAsHTML" id="h3n-QK-xqo"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="https://en.wikipedia.org/wiki/Lev_Gumilev" translatesAutoresizingMaskIntoConstraints="NO" id="ZUR-f8-BLS">
+                                <rect key="frame" x="20" y="20" width="277" height="168"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="URL"/>
+                            </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Download images" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OjM-p1-hRc">
+                                <rect key="frame" x="20" y="295" width="141" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9KA-KM-Wdb">
+                                <rect key="frame" x="84" y="326" width="148" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Change sample text">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeSampleTextAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="9vD-Vg-L2Y"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="centerY" secondItem="OjM-p1-hRc" secondAttribute="centerY" id="29a-vv-YFg"/>
+                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="leading" secondItem="OjM-p1-hRc" secondAttribute="trailing" constant="87" id="88e-LP-62N"/>
+                            <constraint firstItem="1dl-0n-xZb" firstAttribute="centerX" secondItem="Hke-2L-Yqf" secondAttribute="centerX" id="BD6-H6-Gix"/>
+                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="top" secondItem="OjM-p1-hRc" secondAttribute="bottom" constant="10" id="P8K-DP-Tal"/>
+                            <constraint firstAttribute="trailing" secondItem="ZUR-f8-BLS" secondAttribute="trailing" constant="23" id="R71-6B-kLb"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" symbolic="YES" id="XaA-dm-UfB"/>
+                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="84" id="c0M-8a-2Fb"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="trailing" secondItem="mKO-Dj-9SX" secondAttribute="trailing" id="f8W-ah-86p"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="9KA-KM-Wdb" secondAttribute="bottom" constant="148" id="fCm-0V-KG7"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="20" symbolic="YES" id="grs-69-EEC"/>
+                            <constraint firstItem="1dl-0n-xZb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="76" id="kyg-8b-u3e"/>
+                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="centerX" secondItem="1dl-0n-xZb" secondAttribute="centerX" id="oHs-c7-hHU"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="top" secondItem="ZUR-f8-BLS" secondAttribute="bottom" constant="20" id="pdJ-Im-HJH"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="centerX" secondItem="ZUR-f8-BLS" secondAttribute="centerX" id="qLY-g2-N7u"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="leading" secondItem="OjM-p1-hRc" secondAttribute="leading" id="qfu-2N-j11"/>
+                            <constraint firstItem="1dl-0n-xZb" firstAttribute="top" secondItem="Hke-2L-Yqf" secondAttribute="bottom" constant="8" symbolic="YES" id="rGM-AC-n7J"/>
+                            <constraint firstItem="OjM-p1-hRc" firstAttribute="top" secondItem="1dl-0n-xZb" secondAttribute="bottom" constant="19" id="vX7-G7-DTQ"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="77" id="zkM-BR-sFO"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="yyB-1u-xBV"/>
+                    <connections>
+                        <outlet property="optSwtch_DownloadImages" destination="mKO-Dj-9SX" id="j0d-qw-P5r"/>
+                        <outlet property="textView" destination="ZUR-f8-BLS" id="arc-tl-4S8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="654" y="330"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="E0z-yi-GVS">
+            <objects>
+                <viewController id="iU8-Ms-X7s" customClass="DZWebViewController" sceneMemberID="viewController">
+                    <webView key="view" contentMode="scaleToFill" id="V7d-28-F9X">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </webView>
+                    <navigationItem key="navigationItem" id="XuO-x4-UgY">
+                        <barButtonItem key="rightBarButtonItem" title="View page source" id="7Pk-9m-19w">
+                            <connections>
+                                <segue destination="52i-Cu-Wqv" kind="push" identifier="viewPageSource" id="nXM-5o-dzl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webView" destination="V7d-28-F9X" id="LYW-Vb-SMH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2lL-s9-DUV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1132" y="330"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="QB7-he-g5d">
+            <objects>
+                <viewController id="52i-Cu-Wqv" sceneMemberID="viewController">
+                    <textView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="0yr-vY-Qbp">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <navigationItem key="navigationItem" id="bFh-D1-04n"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hhz-kn-04L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1589" y="330"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -27,4 +160,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="Zfn-Lp-HfL"/>
+    </inferredMetricsTieBreakers>
 </document>

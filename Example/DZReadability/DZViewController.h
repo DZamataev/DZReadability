@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GGReadabilityParser.h>
 
 @interface DZViewController : UIViewController
 

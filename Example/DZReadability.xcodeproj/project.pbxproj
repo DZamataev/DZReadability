@@ -24,6 +24,13 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		6D56B2F170C64457A4290C07 /* libPods-DZReadability.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A418E81E67D34ED1A6341CDC /* libPods-DZReadability.a */; };
+		923AB01419D44B42007C891C /* Sample0.html in Resources */ = {isa = PBXBuildFile; fileRef = 923AB01319D44B42007C891C /* Sample0.html */; };
+		923AB01A19D44C48007C891C /* Sample1.html in Resources */ = {isa = PBXBuildFile; fileRef = 923AB01519D44C48007C891C /* Sample1.html */; };
+		923AB01B19D44C48007C891C /* Sample2.html in Resources */ = {isa = PBXBuildFile; fileRef = 923AB01619D44C48007C891C /* Sample2.html */; };
+		923AB01C19D44C48007C891C /* Sample3.html in Resources */ = {isa = PBXBuildFile; fileRef = 923AB01719D44C48007C891C /* Sample3.html */; };
+		923AB01D19D44C48007C891C /* Sample4.html in Resources */ = {isa = PBXBuildFile; fileRef = 923AB01819D44C48007C891C /* Sample4.html */; };
+		923AB01E19D44C48007C891C /* Sample5.html in Resources */ = {isa = PBXBuildFile; fileRef = 923AB01919D44C48007C891C /* Sample5.html */; };
+		923AB02119D44F01007C891C /* DZWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923AB02019D44F01007C891C /* DZWebViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +68,14 @@
 		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		923AB01319D44B42007C891C /* Sample0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample0.html; sourceTree = "<group>"; };
+		923AB01519D44C48007C891C /* Sample1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample1.html; sourceTree = "<group>"; };
+		923AB01619D44C48007C891C /* Sample2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample2.html; sourceTree = "<group>"; };
+		923AB01719D44C48007C891C /* Sample3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample3.html; sourceTree = "<group>"; };
+		923AB01819D44C48007C891C /* Sample4.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample4.html; sourceTree = "<group>"; };
+		923AB01919D44C48007C891C /* Sample5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample5.html; sourceTree = "<group>"; };
+		923AB01F19D44F01007C891C /* DZWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZWebViewController.h; sourceTree = "<group>"; };
+		923AB02019D44F01007C891C /* DZWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZWebViewController.m; sourceTree = "<group>"; };
 		A418E81E67D34ED1A6341CDC /* libPods-DZReadability.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DZReadability.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD1759C3D16A4C94AFC46994 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		B734CC4C096B4B5286ACF178 /* DZReadability.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = DZReadability.podspec; path = ../DZReadability.podspec; sourceTree = "<group>"; };
@@ -96,6 +111,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				923AB01219D44B42007C891C /* SampleText */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* DZReadability */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -137,6 +153,8 @@
 				6003F5A2195388D20070C39A /* Main_iPad.storyboard */,
 				6003F5A5195388D20070C39A /* DZViewController.h */,
 				6003F5A6195388D20070C39A /* DZViewController.m */,
+				923AB01F19D44F01007C891C /* DZWebViewController.h */,
+				923AB02019D44F01007C891C /* DZWebViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -181,6 +199,19 @@
 				AD1759C3D16A4C94AFC46994 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		923AB01219D44B42007C891C /* SampleText */ = {
+			isa = PBXGroup;
+			children = (
+				923AB01319D44B42007C891C /* Sample0.html */,
+				923AB01519D44C48007C891C /* Sample1.html */,
+				923AB01619D44C48007C891C /* Sample2.html */,
+				923AB01719D44C48007C891C /* Sample3.html */,
+				923AB01819D44C48007C891C /* Sample4.html */,
+				923AB01919D44C48007C891C /* Sample5.html */,
+			);
+			path = SampleText;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,7 +295,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				923AB01E19D44C48007C891C /* Sample5.html in Resources */,
+				923AB01419D44B42007C891C /* Sample0.html in Resources */,
 				6003F5A4195388D20070C39A /* Main_iPad.storyboard in Resources */,
+				923AB01B19D44C48007C891C /* Sample2.html in Resources */,
+				923AB01A19D44C48007C891C /* Sample1.html in Resources */,
+				923AB01C19D44C48007C891C /* Sample3.html in Resources */,
+				923AB01D19D44C48007C891C /* Sample4.html in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F5A1195388D20070C39A /* Main_iPhone.storyboard in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -352,6 +389,7 @@
 				6003F59E195388D20070C39A /* DZAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* DZViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				923AB02119D44F01007C891C /* DZWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

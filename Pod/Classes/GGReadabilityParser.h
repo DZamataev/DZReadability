@@ -4,7 +4,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "GDataXMLNode.h"
-#import <CommonCrypto/CommonDigest.h>
 
 
 typedef void (^GGReadabilityParserCompletionHandler)( NSString * content );
@@ -43,8 +42,6 @@ typedef NSInteger GGReadabilityParserOptions;
 }
 
 @property ( nonatomic, assign ) float loadProgress;
-
-@property ( nonatomic, strong ) NSDictionary *downloadedImages;
 
 - (id)initWithURL:(NSURL *)aURL
           options:(GGReadabilityParserOptions)parserOptions

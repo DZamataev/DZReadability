@@ -384,17 +384,19 @@ didReceiveResponse:(NSURLResponse *)response
                     NSLog(@"Error: %@", downloadError);
                 }
                 
-                if (!self.downloadedImages) {
-                    self.downloadedImages = [NSMutableDictionary new];
+                if (imageData) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    if (image) {
+                        NSData *pngRepresentation = UIImagePNGRepresentation(image);
+                        if (pngRepresentation) {
+                            NSString *base64EncodedImage = [pngRepresentation base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+                            if (base64EncodedImage) {
+                                [attribute setStringValue:[@"data:image/png;base64," stringByAppendingString:base64EncodedImage]];
+                            }
+                        }
+                    }
                 }
                 
-                NSString *urlSH1Hash = [[self class] sha1:urlString];
-                
-                NSString *hashWithExtension = [urlSH1Hash stringByAppendingPathExtension:urlString.pathExtension];
-                
-                [self.downloadedImages setValue:imageData forKey:hashWithExtension];
-                
-                [attribute setStringValue:hashWithExtension];
             }
         }
     }
@@ -602,24 +604,6 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     return score;
-}
-
-+ (NSString*)sha1:(NSString*)input
-{
-    const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
-    NSData *data = [NSData dataWithBytes:cstr length:input.length];
-    
-    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
-    
-    CC_SHA1(data.bytes, data.length, digest);
-    
-    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-    
-    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
-        [output appendFormat:@"%02x", digest[i]];
-    
-    return output;
-    
 }
 
 @end
