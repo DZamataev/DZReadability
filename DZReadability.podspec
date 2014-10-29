@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
     }
     c.requires_arc = true
 	c.dependency 'DZReadability/GDataXML-HTML'
+    c.dependency 'DZReadability/Readability'
   end
 
   s.subspec 'GDataXML-HTML' do |sp|
@@ -45,5 +46,10 @@ Pod::Spec.new do |s|
     sp.xcconfig = {
       'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
     }
+  end
+  
+  s.subspec 'Readability' do |rb|
+    rb.resources = 'Pod/Readability/**'
+	rb.requires_arc = true
   end
 end

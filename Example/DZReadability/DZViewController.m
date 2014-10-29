@@ -54,18 +54,12 @@
     
     NSURL *url = [NSURL URLWithString:[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     void (^handleParseURL)() = ^void() {
-        GGReadabilityParser *parser = [[GGReadabilityParser alloc] initWithURL:url
-                                                                       options:options
-                                                             completionHandler:^(NSString *content)
-                                       {
-                                           [webView loadHTMLString:content baseURL:url];
-                                       }
-                                                                  errorHandler:^(NSError *error)
-                                       {
-                                           NSLog(@"Failed rendering page from url: %@\nError:\n%@", url.absoluteString, error);
-                                       }];
-        [parser render];
-
+        [webView loadRequest:[NSURLRequest requestWithURL:url]];
+        
+        DZReadability *readability = [[DZReadability alloc] init];
+        [readability parseContent:nil baseUrl:url inWebView:webView completion:^(DZReadability *sender, NSString *contents, NSError *error) {
+            
+        }];
     };
     
     
@@ -88,7 +82,14 @@
         
     };
     
-    NSDictionary *knownSegueHandlers = @{@"parseAsURL": [handleParseURL copy], @"parseAsHTML": [handleParseText copy]};
+    void (^handleParseTextWithReadabilityJS)() = ^void() {
+        DZReadability *readability = [[DZReadability alloc] init];
+        [readability parseContent:text baseUrl:sampleURL inWebView:webView completion:^(DZReadability *sender, NSString *contents, NSError *error) {
+            
+        }];
+    };
+    
+    NSDictionary *knownSegueHandlers = @{@"parseAsURL": [handleParseURL copy], @"parseAsHTML": [handleParseText copy], @"parseAsHTMLWithReadabilityJS": [handleParseTextWithReadabilityJS copy]};
     
     
     void (^ handler)() = knownSegueHandlers[segue.identifier];

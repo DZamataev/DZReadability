@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "DZReadability"
-  s.version          = "0.1.0"
+  s.version          = "0.1.2"
   s.summary          = "iOS and OSX adoption of Readability algorithm which clears HTML"
   s.description      = <<-DESC
                        Adoption of Readability algorithm which works on iOS and OSX and is capable of clearing the messy HTML document (e.g. site) into nice and readable page.
@@ -36,6 +36,7 @@ Pod::Spec.new do |s|
     }
     c.requires_arc = true
 	c.dependency 'DZReadability/GDataXML-HTML'
+    c.dependency 'DZReadability/Readability'
   end
 
   s.subspec 'GDataXML-HTML' do |sp|
@@ -45,5 +46,10 @@ Pod::Spec.new do |s|
     sp.xcconfig = {
       'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
     }
+  end
+  
+  s.subspec 'Readability' do |rb|
+    rb.resources = 'Pod/Readability/**'
+	rb.requires_arc = true
   end
 end
