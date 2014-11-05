@@ -1183,17 +1183,18 @@ static xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) {
     // this is safe for attributes too
     if (xmlNode_ != NULL) {
         
-        [self releaseCachedValues];
-        
         xmlNodePtr node = [child XMLNode];
-        
-        xmlUnlinkNode(node);
-        
-        // if the child node was borrowing its xmlNodePtr, then we need to
-        // explicitly free it, since there is probably no owning object that will
-        // free it on dealloc
-        if (![child shouldFreeXMLNode]) {
-            xmlFreeNode(node);
+        if (node) {
+            xmlUnlinkNode(node);
+            
+            // if the child node was borrowing its xmlNodePtr, then we need to
+            // explicitly free it, since there is probably no owning object that will
+            // free it on dealloc
+            // TODO: fix what probably causes memory leaks
+//            if (![child shouldFreeXMLNode]) {
+//                xmlFreeNode(node);
+//            }
+            [self releaseCachedValues];
         }
     }
 }
@@ -1431,6 +1432,9 @@ static xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) {
 			attr = attr->next;
 			
 		} while(attr);
+        
+        
+        [self releaseCachedValues];
 	}
 }
 
