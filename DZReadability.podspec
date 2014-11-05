@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "DZReadability"
-  s.version          = "0.1.2"
+  s.version          = "0.1.3"
   s.summary          = "iOS and OSX adoption of Readability algorithm which clears HTML"
   s.description      = <<-DESC
                        Adoption of Readability algorithm which works on iOS and OSX and is capable of clearing the messy HTML document (e.g. site) into nice and readable page.
