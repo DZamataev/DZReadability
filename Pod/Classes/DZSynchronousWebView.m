@@ -94,6 +94,14 @@
 	CFRunLoopRunInMode((CFStringRef)NSDefaultRunLoopMode, 1, NO);
 }
 
+- (NSString *)stringByEvaluatingJavaScriptFromString:(NSString *)script
+{
+    NSString *result = [super stringByEvaluatingJavaScriptFromString:script];
+    
+	CFRunLoopRunInMode((CFStringRef)NSDefaultRunLoopMode, 1, NO);
+    return result;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
