@@ -33,33 +33,13 @@
     UIWebView *webView = (UIWebView*)vc.view;
     assert([webView isKindOfClass:[UIWebView class]]);
     
-    
-    
-    GGReadabilityParserOptions options =
-    GGReadabilityParserOptionClearLinkLists
-    |GGReadabilityParserOptionClearStyles
-    |GGReadabilityParserOptionFixLinks
-    |GGReadabilityParserOptionFixImages
-    |GGReadabilityParserOptionRemoveIFrames
-    //|GGReadabilityParserOptionRemoveDivs
-    //|GGReadabilityParserOptionRemoveEmbeds
-    |GGReadabilityParserOptionRemoveHeader
-    //|GGReadabilityParserOptionRemoveHeaders
-    ;
-    
     if (self.optSwtch_DownloadImages.enabled) {
-        options = options | GGReadabilityParserOptionDownloadImages;
     }
     
     
     NSURL *url = [NSURL URLWithString:[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     void (^handleParseURL)() = ^void() {
         [webView loadRequest:[NSURLRequest requestWithURL:url]];
-        
-        DZReadability *readability = [[DZReadability alloc] init];
-        [readability parseContent:nil baseUrl:url inWebView:webView completion:^(DZReadability *sender, NSString *contents, NSError *error) {
-            
-        }];
     };
     
     
@@ -68,28 +48,15 @@
     // definately we must know from what URL the HTML document came from
     NSURL *sampleURL = [NSURL URLWithString:@"https://google.com"];
     void (^handleParseText)() = ^void() {
-        GGReadabilityParser *parser = [[GGReadabilityParser alloc] initWithURL:sampleURL
-                                                                       options:options
-                                                             completionHandler:^(NSString *content)
-                                       {
-                                           [webView loadHTMLString:content baseURL:nil];
-                                       }
-                                                                  errorHandler:^(NSError *error)
-                                       {
-                                           NSLog(@"Failed rendering HTML page with error:\n%@", error);
-                                       }];
-        [parser renderWithString:text];
+        DZReadability *readability = [[DZReadability alloc] init];
+        [readability parseContent:text baseUrl:sampleURL completion:^(DZReadability *sender, NSString *contents, NSError *error) {
+            NSLog(@"Finished parsing:\n%@", contents);
+            [webView loadHTMLString:contents baseURL:sampleURL];
+        }];
         
     };
     
-    void (^handleParseTextWithReadabilityJS)() = ^void() {
-        DZReadability *readability = [[DZReadability alloc] init];
-        [readability parseContent:text baseUrl:sampleURL inWebView:webView completion:^(DZReadability *sender, NSString *contents, NSError *error) {
-            
-        }];
-    };
-    
-    NSDictionary *knownSegueHandlers = @{@"parseAsURL": [handleParseURL copy], @"parseAsHTML": [handleParseText copy], @"parseAsHTMLWithReadabilityJS": [handleParseTextWithReadabilityJS copy]};
+    NSDictionary *knownSegueHandlers = @{@"parseAsURL": [handleParseURL copy], @"parseAsHTML": [handleParseText copy]};
     
     
     void (^ handler)() = knownSegueHandlers[segue.identifier];

@@ -79,40 +79,27 @@
                                     <action selector="changeSampleTextAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="9vD-Vg-L2Y"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Xm-bj-8nB">
-                                <rect key="frame" x="35" y="284" width="251" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Parse as HTML with Readability.js">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="iU8-Ms-X7s" kind="push" identifier="parseAsHTMLWithReadabilityJS" id="IpC-sO-D0w"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="trailing" secondItem="mKO-Dj-9SX" secondAttribute="trailing" id="1m2-fL-L2J"/>
-                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="top" secondItem="2Xm-bj-8nB" secondAttribute="bottom" constant="2" id="BaE-Mi-pkD"/>
-                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="leading" secondItem="OjM-p1-hRc" secondAttribute="trailing" constant="87" id="Hh6-Dd-doZ"/>
-                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="top" secondItem="OjM-p1-hRc" secondAttribute="bottom" constant="10" id="INR-SU-DAy"/>
-                            <constraint firstItem="1dl-0n-xZb" firstAttribute="top" secondItem="Hke-2L-Yqf" secondAttribute="bottom" constant="8" symbolic="YES" id="L1q-Yb-nOg"/>
-                            <constraint firstAttribute="trailing" secondItem="ZUR-f8-BLS" secondAttribute="trailing" constant="23" id="NSX-rX-ZH7"/>
-                            <constraint firstItem="2Xm-bj-8nB" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="35" id="NyE-8g-REs"/>
-                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="centerX" secondItem="1dl-0n-xZb" secondAttribute="centerX" id="Vmr-ye-zwC"/>
-                            <constraint firstItem="2Xm-bj-8nB" firstAttribute="top" secondItem="1dl-0n-xZb" secondAttribute="bottom" constant="8" symbolic="YES" id="WTP-DT-0qy"/>
-                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="centerX" secondItem="ZUR-f8-BLS" secondAttribute="centerX" id="dWO-yz-5oV"/>
-                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="centerY" secondItem="OjM-p1-hRc" secondAttribute="centerY" id="gvd-eM-I70"/>
-                            <constraint firstItem="1dl-0n-xZb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="76" id="kNX-b3-BUE"/>
-                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="centerX" secondItem="1dl-0n-xZb" secondAttribute="centerX" id="mli-L9-ve2"/>
-                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="top" secondItem="ZUR-f8-BLS" secondAttribute="bottom" constant="20" id="rFr-wF-InV"/>
-                            <constraint firstItem="OjM-p1-hRc" firstAttribute="leading" secondItem="ZUR-f8-BLS" secondAttribute="leading" id="sDx-dp-Rsl"/>
-                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="77" id="tse-jU-S5o"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="9KA-KM-Wdb" secondAttribute="bottom" constant="122" id="udP-vf-3ur"/>
-                            <constraint firstItem="2Xm-bj-8nB" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="vlq-SV-3iu"/>
-                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="84" id="xs5-nx-7YK"/>
-                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" symbolic="YES" id="ykJ-1H-LCb"/>
-                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="20" symbolic="YES" id="z9T-1Z-Ktv"/>
+                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="top" secondItem="OjM-p1-hRc" secondAttribute="bottom" constant="10" id="029-4z-VjW"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="9KA-KM-Wdb" secondAttribute="bottom" constant="122" id="4Pa-V1-78b"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="centerX" secondItem="1dl-0n-xZb" secondAttribute="centerX" id="4oT-Mh-nWO"/>
+                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="leading" secondItem="OjM-p1-hRc" secondAttribute="trailing" constant="87" id="81d-0X-OGH"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="centerX" secondItem="ZUR-f8-BLS" secondAttribute="centerX" id="BNI-Yi-S0w"/>
+                            <constraint firstItem="1dl-0n-xZb" firstAttribute="top" secondItem="Hke-2L-Yqf" secondAttribute="bottom" constant="8" symbolic="YES" id="JaK-Qb-pVP"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="top" secondItem="ZUR-f8-BLS" secondAttribute="bottom" constant="20" id="LjX-hA-ZPD"/>
+                            <constraint firstItem="1dl-0n-xZb" firstAttribute="centerX" secondItem="9KA-KM-Wdb" secondAttribute="centerX" id="WUS-Ud-Dqe"/>
+                            <constraint firstItem="1dl-0n-xZb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="76" id="X83-Pl-8nF"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="20" symbolic="YES" id="a7O-CV-Ogd"/>
+                            <constraint firstItem="9KA-KM-Wdb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="84" id="eDg-5i-phR"/>
+                            <constraint firstAttribute="trailing" secondItem="ZUR-f8-BLS" secondAttribute="trailing" constant="23" id="jOT-aD-KmH"/>
+                            <constraint firstItem="Hke-2L-Yqf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="77" id="jxE-zf-dqU"/>
+                            <constraint firstItem="OjM-p1-hRc" firstAttribute="centerY" secondItem="mKO-Dj-9SX" secondAttribute="centerY" id="k2d-Se-BYq"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="leading" secondItem="OjM-p1-hRc" secondAttribute="leading" id="k41-YM-sw7"/>
+                            <constraint firstItem="OjM-p1-hRc" firstAttribute="top" secondItem="1dl-0n-xZb" secondAttribute="bottom" constant="45" id="sLq-NZ-Sx5"/>
+                            <constraint firstItem="ZUR-f8-BLS" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" symbolic="YES" id="wyc-ay-lJa"/>
+                            <constraint firstItem="mKO-Dj-9SX" firstAttribute="trailing" secondItem="ZUR-f8-BLS" secondAttribute="trailing" id="yLB-ol-ffv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yyB-1u-xBV"/>
@@ -174,6 +161,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="IpC-sO-D0w"/>
+        <segue reference="h3n-QK-xqo"/>
     </inferredMetricsTieBreakers>
 </document>

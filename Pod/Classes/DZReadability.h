@@ -10,10 +10,12 @@
 #import <UIKit/UIKit.h>
 
 @class DZReadability;
+@class DZSynchronousWebView;
 
 typedef void (^DZReadabilityCompletion)(DZReadability *sender, NSString *contents, NSError *error);
 
 @interface DZReadability : NSObject
 
-- (void)parseContent:(NSString*)text baseUrl:(NSURL*)baseUrl inWebView:(UIWebView*)webView completion:(DZReadabilityCompletion)completionBlock;
+- (void)parseContentFromWebView:(UIWebView*)webView completion:(DZReadabilityCompletion)completionBlock;
+- (void)parseContent:(NSString*)text baseUrl:(NSURL*)baseUrl completion:(DZReadabilityCompletion)completionBlock;
 @end

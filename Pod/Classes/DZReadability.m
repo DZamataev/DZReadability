@@ -7,9 +7,9 @@
 //
 
 #import "DZReadability.h"
+#import "DZSynchronousWebView.h"
 
 @interface DZReadability () <UIWebViewDelegate>
-@property (nonatomic, strong) UIWebView *webView;
 @end
 
 @implementation DZReadability
@@ -20,36 +20,54 @@
     return self;
 }
 
-- (void)parseContent:(NSString*)text baseUrl:(NSURL*)baseUrl inWebView:(UIWebView*)webView completion:(DZReadabilityCompletion)completionBlock {
-    if (text && text.length)
-        [webView loadHTMLString:text baseURL:baseUrl];
-    [self performSelector:@selector(perform:)   withObject:webView afterDelay:5.0f];
-    completionBlock(self, nil, nil);
+- (void)parseContentFromWebView:(UIWebView*)webView completion:(DZReadabilityCompletion)completionBlock {
+    NSURL *baseUrl = webView.request.URL.copy;
+    NSString *text = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
+    [self parseContent:text baseUrl:baseUrl completion:completionBlock];
 }
 
-- (void)perform:(UIWebView*)webView {
+- (void)parseContent:(NSString*)text baseUrl:(NSURL*)baseUrl completion:(DZReadabilityCompletion)completionBlock {
+    assert(text && text.length > 0);
+    assert(baseUrl);
+    
+    DZSynchronousWebView *webView = [[DZSynchronousWebView alloc] init];
+    webView.suppressesIncrementalRendering = YES;
+    
+    [self loadTemplatedContent:text inWebView:webView baseUrl:baseUrl];
+    
+    NSString *htmlS = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
+    [self invokeReadabilityJSInWebView:webView];
+    
+    NSString *html = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"];
+    
+    completionBlock(self, html, nil);
+}
+
+- (void)loadTemplatedContent:(NSString*)text inWebView:(UIWebView*)webView baseUrl:(NSURL*)baseUrl {
+    NSString* template;
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"readability-template" ofType:@"html"];
+    if (path) {
+        template = [NSString stringWithContentsOfFile:path
+                                             encoding:NSUTF8StringEncoding
+                                                error:NULL];
+    }
+    NSString *formattedArticle = [template stringByReplacingOccurrencesOfString:@"$$$ARTICLE_CONTENT$$$" withString:text];
+    [webView loadHTMLString:formattedArticle baseURL:baseUrl];
+    
+    // the next line totally removes contextual menu from web view which is triggered on long pressing the link
+    [webView stringByEvaluatingJavaScriptFromString: @"document.body.style.webkitTouchCallout='none';" ];
+}
+
+- (void)invokeReadabilityJSInWebView:(UIWebView*)webView {
     id oldDelegate = webView.delegate;
     webView.delegate = self;
+
+    
     NSString *js = [self redabilityJS];
     NSLog(@"Starts executing js");
     [webView stringByEvaluatingJavaScriptFromString:js];
     
-    [self injectReadabilityCSS:webView];
-    
-    
     webView.delegate = oldDelegate;
-}
-
-- (void)injectReadabilityCSS:(UIWebView*)webView {
-    NSString* css = [[NSString alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"readability" ofType:@"css"] encoding:NSUTF8StringEncoding error:nil];
-    NSString* js = [NSString stringWithFormat:
-                    @"var styleNode = document.createElement('style');\n"
-                    "styleNode.type = \"text/css\";\n"
-                    "var styleText = document.createTextNode(%@);\n"
-                    "styleNode.appendChild(styleText);\n"
-                    "document.getElementsByTagName('head')[0].appendChild(styleNode);\n",css];
-    NSLog(@"js:\n%@",js);
-    [webView stringByEvaluatingJavaScriptFromString:js];
 }
 
 - (NSString*)redabilityJS {
