@@ -2,9 +2,7 @@
  Copyright (c) 2012 Curtis Hard - GeekyGoodness
 */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import "GDataXMLNode.h"
-
 
 typedef void (^GGReadabilityParserCompletionHandler)( NSString * content );
 typedef void (^GGReadabilityParserErrorHandler)( NSError * error );
@@ -20,8 +18,7 @@ enum {
     GGReadabilityParserOptionFixImages = 1 << 8,
     GGReadabilityParserOptionFixLinks = 1 << 9,
     GGReadabilityParserOptionClearStyles = 1 << 10,
-    GGReadabilityParserOptionClearLinkLists = 1 << 11,
-    GGReadabilityParserOptionDownloadImages = 1 << 12
+    GGReadabilityParserOptionClearLinkLists = 1 << 11
 }; 
 typedef NSInteger GGReadabilityParserOptions;
 
@@ -34,6 +31,7 @@ typedef NSInteger GGReadabilityParserOptions;
     GGReadabilityParserCompletionHandler completionHandler;
     GGReadabilityParserOptions options;
     NSURL * URL;
+    NSURL * baseURL;
     long long dataLength;
     NSMutableData * responseData;
     NSURLConnection * URLConnection;
@@ -43,6 +41,7 @@ typedef NSInteger GGReadabilityParserOptions;
 
 @property ( nonatomic, assign ) float loadProgress;
 
+- (id)initWithOptions:(GGReadabilityParserOptions)parserOptions;
 - (id)initWithURL:(NSURL *)aURL
           options:(GGReadabilityParserOptions)parserOptions
 completionHandler:(GGReadabilityParserCompletionHandler)cHandler
@@ -51,5 +50,7 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)cancel;
 - (void)render;
 - (void)renderWithString:(NSString *)string;
+
+- (GDataXMLElement *)processXMLDocument:(GDataXMLDocument *)XML baseURL:(NSURL *)theBaseURL error:(NSError **)error;
 
 @end

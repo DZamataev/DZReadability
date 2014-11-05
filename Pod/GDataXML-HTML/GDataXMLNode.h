@@ -121,6 +121,9 @@ typedef NSUInteger GDataXMLNodeKind;
     NSArray *cachedAttributes_;
 }
 
+@property(readonly, copy) GDataXMLNode *nextNode;
+@property(readonly, copy) GDataXMLNode *nextSibling;
+
 + (GDataXMLElement *)elementWithName:(NSString *)name;
 + (GDataXMLElement *)elementWithName:(NSString *)name stringValue:(NSString *)value;
 + (GDataXMLElement *)elementWithName:(NSString *)name URI:(NSString *)value;
@@ -173,6 +176,8 @@ typedef NSUInteger GDataXMLNodeKind;
 // if you change the underlying tree at all
 - (xmlNodePtr)XMLNode;
 - (void)releaseCachedValues;
+
+- (void)detach;
 
 @end
 

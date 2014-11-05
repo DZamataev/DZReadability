@@ -449,6 +449,115 @@ static xmlChar *SplitQNameReverse(const xmlChar *qname, xmlChar **prefix) {
 
 #pragma mark -
 
+- (GDataXMLNode *)nextNode {
+    // If the node has children, then next node is the first child
+	GDataXMLNode *firstChild = [self childAtIndex:0];
+	if (firstChild)
+		return firstChild;
+	
+	// If the node has a next sibling, then next node is the same as next sibling
+	
+	GDataXMLNode *nextSibling = [self nextSibling];
+	if (nextSibling)
+		return nextSibling;
+	
+	// There are no children, and no more siblings, so we need to get the next sibling of the parent.
+	// If that is nil, we need to get the next sibling of the grandparent, etc.
+	
+	// Note: Try to accomplish this task without creating dozens of intermediate wrapper objects
+	
+	xmlNodePtr parent = xmlNode_->parent;
+	while (parent != NULL)
+	{
+		xmlNodePtr parentNextSibling = parent->next;
+		if (parentNextSibling != NULL)
+			return [GDataXMLNode nodeBorrowingXMLNode:parentNextSibling];
+		else
+			parent = parent->parent;
+	}
+	
+	return nil;
+    
+//    GDataXMLNode *nextNode;
+//    while (true) {
+//        
+//        xmlNodePtr next = xmlNode_->next;
+//        if (!next) {
+//            break;
+//        }
+//        xmlElementType nodeType = next->type;
+//        if (nodeType == XML_ATTRIBUTE_NODE ||
+//            nodeType == XML_NAMESPACE_DECL) {
+//            continue;
+//        }
+//        nextNode = [GDataXMLNode nodeBorrowingXMLNode:next];
+//        break;
+//    }
+//    return nextNode;
+}
+
+- (GDataXMLNode *)nextSibling {
+    xmlNodePtr node = xmlNode_;
+	
+	if (node->next == NULL)
+		return nil;
+	else
+		return [GDataXMLNode nodeBorrowingXMLNode:node->next];
+//    GDataXMLNode *sibling;
+//    GDataXMLNode *parentNode = [self parent];
+//    if (parentNode) {
+//        NSInteger siblingIndex = [self index] + 1;
+//        sibling = [parentNode childAtIndex:siblingIndex];
+//    }
+//    return sibling;
+}
+
+- (void)detach {
+    xmlNodePtr node = xmlNode_;
+	
+	if (node->parent != NULL)
+	{
+        xmlElementType type = node->type;
+		if (type == XML_ELEMENT_NODE || type == XML_PI_NODE || type == XML_COMMENT_NODE || type == XML_TEXT_NODE || type == XML_CDATA_SECTION_NODE)
+		{
+			[[self class] detachChild:(xmlNodePtr)node];
+		}
+	}
+}
+
++ (void)detachChild:(xmlNodePtr)child
+{
+	xmlNodePtr parent = child->parent;
+	
+	// Update the surrounding prev/next pointers
+	if (child->prev == NULL)
+	{
+		if (child->next == NULL)
+		{
+			parent->children = NULL;
+			parent->last = NULL;
+		}
+		else
+		{
+			parent->children = child->next;
+			child->next->prev = NULL;
+		}
+	}
+	else
+	{
+		if (child->next == NULL)
+		{
+			parent->last = child->prev;
+			child->prev->next = NULL;
+		}
+		else
+		{
+			child->prev->next = child->next;
+			child->next->prev = child->prev;
+		}
+	}
+}
+
 - (void)setStringValue:(NSString *)str {
     if (xmlNode_ != NULL && str != nil) {
         
