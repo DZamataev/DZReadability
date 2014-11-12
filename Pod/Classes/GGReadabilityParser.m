@@ -292,7 +292,11 @@ didReceiveResponse:(NSURLResponse *)response
             
             if( killElement )
             {
-                [(GDataXMLElement *)[theElement parent] removeChildAtIndex:[theElement index]];
+                GDataXMLNode *parent = [theElement parent];
+                if (parent && [parent isKindOfClass:[GDataXMLElement class]]) {
+                    GDataXMLElement *parentEl = (GDataXMLElement*)parent;
+                    [parentEl removeChildAtIndex:[theElement index]];
+                }
                 continue;
             }
             
@@ -316,7 +320,11 @@ didReceiveResponse:(NSURLResponse *)response
             // if kill element, remove it!
             if( killElement )
             {
-                [(GDataXMLElement *)[theElement parent] removeChildAtIndex:[theElement index]];
+                GDataXMLNode *parent = [theElement parent];
+                if (parent && [parent isKindOfClass:[GDataXMLElement class]]) {
+                    GDataXMLElement *parentEl = (GDataXMLElement*)parent;
+                    [parentEl removeChildAtIndex:[theElement index]];
+                }
             }
             
         }
