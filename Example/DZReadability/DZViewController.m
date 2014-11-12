@@ -45,6 +45,7 @@
     //|GGReadabilityParserOptionRemoveEmbeds
     |GGReadabilityParserOptionRemoveHeader
     //|GGReadabilityParserOptionRemoveHeaders
+    |GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes
     ;
     
     if (self.optSwtch_DownloadImages.enabled) {

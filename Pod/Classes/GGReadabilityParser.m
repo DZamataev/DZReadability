@@ -401,6 +401,17 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
+    if ( options & GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes )
+    {
+        // grab images
+        NSArray * els = [element nodesForXPath:@"//img" error:&error];
+        
+        for ( GDataXMLElement * fixEl in els ) {
+            [fixEl removeAttributeForName:@"width"];
+            [fixEl removeAttributeForName:@"height"];
+        }
+    }
+    
     // were done!
     
     NSData * data = [[element XMLString] dataUsingEncoding:NSUTF8StringEncoding

@@ -21,7 +21,8 @@ enum {
     GGReadabilityParserOptionFixLinks = 1 << 9,
     GGReadabilityParserOptionClearStyles = 1 << 10,
     GGReadabilityParserOptionClearLinkLists = 1 << 11,
-    GGReadabilityParserOptionDownloadImages = 1 << 12
+    GGReadabilityParserOptionDownloadImages = 1 << 12,
+    GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes = 1 << 13
 }; 
 typedef NSInteger GGReadabilityParserOptions;
 
