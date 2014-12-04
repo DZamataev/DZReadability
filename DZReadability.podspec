@@ -9,12 +9,11 @@
 
 Pod::Spec.new do |s|
   s.name             = "DZReadability"
-  s.version          = "0.1.5"
+  s.version          = "0.1.6"
   s.summary          = "iOS and OSX adoption of Readability algorithm which clears HTML"
   s.description      = <<-DESC
                        Adoption of Readability algorithm which works on iOS and OSX and is capable of clearing the messy HTML document (e.g. site) into nice and readable page.
                        Rework of GGReadabilityParser found here: https://github.com/curthard89/COCOA-Stuff/tree/master/GGReadabilityParser
-                       Also uses forked version of GDataXML-HTML (original source here: https://github.com/graetzer/GDataXML-HTML)
                        DESC
   s.homepage         = "https://github.com/DZamataev/DZReadability"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
@@ -23,27 +22,23 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/DZamataev/DZReadability.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/dzamataev'
 
-  s.platform     = :ios, '7.0'
-  
+  s.ios.platform = :ios, "5.0"
+  s.osx.platform = :osx, "10.7"
+
   s.default_subspec = 'Core'
   
   s.requires_arc = true
   
   s.subspec 'Core' do |c|
     c.source_files = 'Pod/Classes'
-    c.resource_bundles = {
-      'DZReadability' => ['Pod/Assets/*.png']
-    }
     c.requires_arc = true
-	c.dependency 'DZReadability/GDataXML-HTML'
+    c.dependency 'DZReadability/Core-no-arc'
   end
+  
+  s.subspec 'Core-no-arc' do |cna|
+    cna.source_files = 'Pod/Classes-no-arc'
+    cna.requires_arc = false
+  end
+    
 
-  s.subspec 'GDataXML-HTML' do |sp|
-    sp.source_files = 'Pod/GDataXML-HTML'
-	sp.requires_arc = true
-    sp.libraries = 'xml2'
-    sp.xcconfig = {
-      'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
-    }
-  end
 end
