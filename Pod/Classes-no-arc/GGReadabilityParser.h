@@ -52,9 +52,4 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)renderWithString:(NSString *)string;
 
 - (NSXMLElement *)processXMLDocument:(NSXMLDocument *)XML baseURL:(NSURL *)theBaseURL error:(NSError **)error;
-
-- (BOOL)checkXMLDocument:(NSXMLDocument *)XML bodyElement:(NSXMLElement **)theEl error:(NSError **)error;
-- (NSXMLElement *)findBaseLevelContent:(NSXMLElement *)element error:(NSError **)error;
-- (NSInteger)scoreElement:(NSXMLElement *)element;
-
 @end

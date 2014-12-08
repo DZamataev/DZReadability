@@ -8,15 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		797F8B73022365ED8A405D1B /* libPods-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0804E476A2FA77444AABAF /* libPods-osx.a */; };
+		844BF5661A31E882007B5A48 /* Sample0.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602A1A30C70400F6BAFB /* Sample0.html */; };
+		844BF5671A31E882007B5A48 /* Sample1.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602B1A30C70400F6BAFB /* Sample1.html */; };
 		846A60221A30C6E900F6BAFB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 846A601F1A30C6E900F6BAFB /* Main_iPhone.storyboard */; };
 		846A60271A30C6FA00F6BAFB /* DZViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846A60241A30C6FA00F6BAFB /* DZViewController.m */; };
 		846A60281A30C6FA00F6BAFB /* DZWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846A60261A30C6FA00F6BAFB /* DZWebViewController.m */; };
 		846A60301A30C70500F6BAFB /* Sample0.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602A1A30C70400F6BAFB /* Sample0.html */; };
 		846A60311A30C70500F6BAFB /* Sample1.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602B1A30C70400F6BAFB /* Sample1.html */; };
-		846A60321A30C70500F6BAFB /* Sample2.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602C1A30C70400F6BAFB /* Sample2.html */; };
-		846A60331A30C70500F6BAFB /* Sample3.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602D1A30C70500F6BAFB /* Sample3.html */; };
-		846A60341A30C70500F6BAFB /* Sample4.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602E1A30C70500F6BAFB /* Sample4.html */; };
-		846A60351A30C70500F6BAFB /* Sample5.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602F1A30C70500F6BAFB /* Sample5.html */; };
 		846FF43D1A30BB47004D4F51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 846FF43C1A30BB47004D4F51 /* main.m */; };
 		846FF4401A30BB47004D4F51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 846FF43F1A30BB47004D4F51 /* AppDelegate.m */; };
 		846FF4431A30BB47004D4F51 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846FF4421A30BB47004D4F51 /* ViewController.m */; };
@@ -29,6 +27,10 @@
 		846FF46C1A30BB5C004D4F51 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846FF46B1A30BB5C004D4F51 /* Images.xcassets */; };
 		846FF46F1A30BB5C004D4F51 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 846FF46D1A30BB5C004D4F51 /* MainMenu.xib */; };
 		846FF47B1A30BB5D004D4F51 /* DZReadability_OSXTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 846FF47A1A30BB5D004D4F51 /* DZReadability_OSXTests.m */; };
+		84FFFE0C1A35F35500EEC49B /* Result0.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0A1A35F35500EEC49B /* Result0.html */; };
+		84FFFE0D1A35F35500EEC49B /* Result0.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0A1A35F35500EEC49B /* Result0.html */; };
+		84FFFE0E1A35F35500EEC49B /* Result1.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0B1A35F35500EEC49B /* Result1.html */; };
+		84FFFE0F1A35F35500EEC49B /* Result1.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0B1A35F35500EEC49B /* Result1.html */; };
 		ECA101AD9B7B23EFC06D932E /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DF234615BB2C19CE22EE93 /* libPods-ios.a */; };
 /* End PBXBuildFile section */
 
@@ -60,10 +62,6 @@
 		846A60261A30C6FA00F6BAFB /* DZWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZWebViewController.m; sourceTree = "<group>"; };
 		846A602A1A30C70400F6BAFB /* Sample0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample0.html; sourceTree = "<group>"; };
 		846A602B1A30C70400F6BAFB /* Sample1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample1.html; sourceTree = "<group>"; };
-		846A602C1A30C70400F6BAFB /* Sample2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample2.html; sourceTree = "<group>"; };
-		846A602D1A30C70500F6BAFB /* Sample3.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample3.html; sourceTree = "<group>"; };
-		846A602E1A30C70500F6BAFB /* Sample4.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample4.html; sourceTree = "<group>"; };
-		846A602F1A30C70500F6BAFB /* Sample5.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample5.html; sourceTree = "<group>"; };
 		846FF4381A30BB47004D4F51 /* DZReadability-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DZReadability-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		846FF43B1A30BB47004D4F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		846FF43C1A30BB47004D4F51 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -87,6 +85,8 @@
 		846FF4741A30BB5D004D4F51 /* DZReadability-OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DZReadability-OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		846FF4791A30BB5D004D4F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		846FF47A1A30BB5D004D4F51 /* DZReadability_OSXTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DZReadability_OSXTests.m; sourceTree = "<group>"; };
+		84FFFE0A1A35F35500EEC49B /* Result0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Result0.html; sourceTree = "<group>"; };
+		84FFFE0B1A35F35500EEC49B /* Result1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Result1.html; sourceTree = "<group>"; };
 		90DF234615BB2C19CE22EE93 /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A0E1AC889694531CF40F32 /* Pods-osx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.release.xcconfig"; path = "Pods/Target Support Files/Pods-osx/Pods-osx.release.xcconfig"; sourceTree = "<group>"; };
 		D891AA9914056DC22B709256 /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -140,10 +140,8 @@
 			children = (
 				846A602A1A30C70400F6BAFB /* Sample0.html */,
 				846A602B1A30C70400F6BAFB /* Sample1.html */,
-				846A602C1A30C70400F6BAFB /* Sample2.html */,
-				846A602D1A30C70500F6BAFB /* Sample3.html */,
-				846A602E1A30C70500F6BAFB /* Sample4.html */,
-				846A602F1A30C70500F6BAFB /* Sample5.html */,
+				84FFFE0A1A35F35500EEC49B /* Result0.html */,
+				84FFFE0B1A35F35500EEC49B /* Result1.html */,
 			);
 			path = SampleText;
 			sourceTree = "<group>";
@@ -398,11 +396,9 @@
 			files = (
 				846FF4461A30BB47004D4F51 /* Main.storyboard in Resources */,
 				846A60311A30C70500F6BAFB /* Sample1.html in Resources */,
-				846A60351A30C70500F6BAFB /* Sample5.html in Resources */,
-				846A60321A30C70500F6BAFB /* Sample2.html in Resources */,
+				84FFFE0C1A35F35500EEC49B /* Result0.html in Resources */,
 				846A60221A30C6E900F6BAFB /* Main_iPhone.storyboard in Resources */,
-				846A60341A30C70500F6BAFB /* Sample4.html in Resources */,
-				846A60331A30C70500F6BAFB /* Sample3.html in Resources */,
+				84FFFE0E1A35F35500EEC49B /* Result1.html in Resources */,
 				846FF44B1A30BB47004D4F51 /* LaunchScreen.xib in Resources */,
 				846FF4481A30BB47004D4F51 /* Images.xcassets in Resources */,
 				846A60301A30C70500F6BAFB /* Sample0.html in Resources */,
@@ -420,6 +416,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				844BF5661A31E882007B5A48 /* Sample0.html in Resources */,
+				84FFFE0F1A35F35500EEC49B /* Result1.html in Resources */,
+				844BF5671A31E882007B5A48 /* Sample1.html in Resources */,
+				84FFFE0D1A35F35500EEC49B /* Result0.html in Resources */,
 				846FF46C1A30BB5C004D4F51 /* Images.xcassets in Resources */,
 				846FF46F1A30BB5C004D4F51 /* MainMenu.xib in Resources */,
 			);
