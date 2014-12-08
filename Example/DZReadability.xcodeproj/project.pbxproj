@@ -31,6 +31,8 @@
 		84FFFE0D1A35F35500EEC49B /* Result0.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0A1A35F35500EEC49B /* Result0.html */; };
 		84FFFE0E1A35F35500EEC49B /* Result1.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0B1A35F35500EEC49B /* Result1.html */; };
 		84FFFE0F1A35F35500EEC49B /* Result1.html in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE0B1A35F35500EEC49B /* Result1.html */; };
+		84FFFE111A35F9F800EEC49B /* SampleDocumentURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE101A35F9F800EEC49B /* SampleDocumentURLs.plist */; };
+		84FFFE121A35F9F800EEC49B /* SampleDocumentURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84FFFE101A35F9F800EEC49B /* SampleDocumentURLs.plist */; };
 		ECA101AD9B7B23EFC06D932E /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DF234615BB2C19CE22EE93 /* libPods-ios.a */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +89,7 @@
 		846FF47A1A30BB5D004D4F51 /* DZReadability_OSXTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DZReadability_OSXTests.m; sourceTree = "<group>"; };
 		84FFFE0A1A35F35500EEC49B /* Result0.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Result0.html; sourceTree = "<group>"; };
 		84FFFE0B1A35F35500EEC49B /* Result1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Result1.html; sourceTree = "<group>"; };
+		84FFFE101A35F9F800EEC49B /* SampleDocumentURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleDocumentURLs.plist; sourceTree = "<group>"; };
 		90DF234615BB2C19CE22EE93 /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A0E1AC889694531CF40F32 /* Pods-osx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.release.xcconfig"; path = "Pods/Target Support Files/Pods-osx/Pods-osx.release.xcconfig"; sourceTree = "<group>"; };
 		D891AA9914056DC22B709256 /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 				846A602B1A30C70400F6BAFB /* Sample1.html */,
 				84FFFE0A1A35F35500EEC49B /* Result0.html */,
 				84FFFE0B1A35F35500EEC49B /* Result1.html */,
+				84FFFE101A35F9F800EEC49B /* SampleDocumentURLs.plist */,
 			);
 			path = SampleText;
 			sourceTree = "<group>";
@@ -401,6 +405,7 @@
 				84FFFE0E1A35F35500EEC49B /* Result1.html in Resources */,
 				846FF44B1A30BB47004D4F51 /* LaunchScreen.xib in Resources */,
 				846FF4481A30BB47004D4F51 /* Images.xcassets in Resources */,
+				84FFFE111A35F9F800EEC49B /* SampleDocumentURLs.plist in Resources */,
 				846A60301A30C70500F6BAFB /* Sample0.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,6 +425,7 @@
 				84FFFE0F1A35F35500EEC49B /* Result1.html in Resources */,
 				844BF5671A31E882007B5A48 /* Sample1.html in Resources */,
 				84FFFE0D1A35F35500EEC49B /* Result0.html in Resources */,
+				84FFFE121A35F9F800EEC49B /* SampleDocumentURLs.plist in Resources */,
 				846FF46C1A30BB5C004D4F51 /* Images.xcassets in Resources */,
 				846FF46F1A30BB5C004D4F51 /* MainMenu.xib in Resources */,
 			);
