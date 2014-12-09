@@ -5,7 +5,7 @@
 #import "GGReadabilityParser.h"
 
 // Original XPath: @".//%@". Alternative XPath: @".//*[matches(name(),'%@','i')]"
-NSString * const	tagNameXPath = @".//*[lower-case(name())='%@']";
+NSString * const	tagNameXPath = @".//%@";
 
 @interface GGReadabilityParser ( private )
 - (BOOL)checkXMLDocument:(NSXMLDocument *)XML bodyElement:(NSXMLElement **)theEl error:(NSError **)error;

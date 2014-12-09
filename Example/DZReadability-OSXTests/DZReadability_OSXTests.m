@@ -46,7 +46,7 @@
         
         NSURL *docUrl = nil;
         if (sampleDocumentURLs.count > i) {
-            docUrl = sampleDocumentURLs[i];
+            docUrl = [NSURL URLWithString: sampleDocumentURLs[i]];
         }
         
         if (!samplePath || !docUrl || !resultPath) {

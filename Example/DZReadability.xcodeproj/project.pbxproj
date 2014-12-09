@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		797F8B73022365ED8A405D1B /* libPods-osx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0804E476A2FA77444AABAF /* libPods-osx.a */; };
+		84005A421A37137E0046CD38 /* Sample2.html in Resources */ = {isa = PBXBuildFile; fileRef = 84005A411A37137E0046CD38 /* Sample2.html */; };
+		84005A431A37137E0046CD38 /* Sample2.html in Resources */ = {isa = PBXBuildFile; fileRef = 84005A411A37137E0046CD38 /* Sample2.html */; };
+		84005A451A3713890046CD38 /* Result2.html in Resources */ = {isa = PBXBuildFile; fileRef = 84005A441A3713890046CD38 /* Result2.html */; };
+		84005A461A3713890046CD38 /* Result2.html in Resources */ = {isa = PBXBuildFile; fileRef = 84005A441A3713890046CD38 /* Result2.html */; };
 		844BF5661A31E882007B5A48 /* Sample0.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602A1A30C70400F6BAFB /* Sample0.html */; };
 		844BF5671A31E882007B5A48 /* Sample1.html in Resources */ = {isa = PBXBuildFile; fileRef = 846A602B1A30C70400F6BAFB /* Sample1.html */; };
 		846A60221A30C6E900F6BAFB /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 846A601F1A30C6E900F6BAFB /* Main_iPhone.storyboard */; };
@@ -57,6 +61,8 @@
 		3A0804E476A2FA77444AABAF /* libPods-osx.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-osx.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA6EB14E13E80E13D10FAAB /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		7BE78DBCA6237322074B2803 /* Pods-osx.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.debug.xcconfig"; path = "Pods/Target Support Files/Pods-osx/Pods-osx.debug.xcconfig"; sourceTree = "<group>"; };
+		84005A411A37137E0046CD38 /* Sample2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Sample2.html; sourceTree = "<group>"; };
+		84005A441A3713890046CD38 /* Result2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Result2.html; sourceTree = "<group>"; };
 		846A60201A30C6E900F6BAFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		846A60231A30C6FA00F6BAFB /* DZViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DZViewController.h; sourceTree = "<group>"; };
 		846A60241A30C6FA00F6BAFB /* DZViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DZViewController.m; sourceTree = "<group>"; };
@@ -143,8 +149,10 @@
 			children = (
 				846A602A1A30C70400F6BAFB /* Sample0.html */,
 				846A602B1A30C70400F6BAFB /* Sample1.html */,
+				84005A411A37137E0046CD38 /* Sample2.html */,
 				84FFFE0A1A35F35500EEC49B /* Result0.html */,
 				84FFFE0B1A35F35500EEC49B /* Result1.html */,
+				84005A441A3713890046CD38 /* Result2.html */,
 				84FFFE101A35F9F800EEC49B /* SampleDocumentURLs.plist */,
 			);
 			path = SampleText;
@@ -403,8 +411,10 @@
 				84FFFE0C1A35F35500EEC49B /* Result0.html in Resources */,
 				846A60221A30C6E900F6BAFB /* Main_iPhone.storyboard in Resources */,
 				84FFFE0E1A35F35500EEC49B /* Result1.html in Resources */,
+				84005A421A37137E0046CD38 /* Sample2.html in Resources */,
 				846FF44B1A30BB47004D4F51 /* LaunchScreen.xib in Resources */,
 				846FF4481A30BB47004D4F51 /* Images.xcassets in Resources */,
+				84005A451A3713890046CD38 /* Result2.html in Resources */,
 				84FFFE111A35F9F800EEC49B /* SampleDocumentURLs.plist in Resources */,
 				846A60301A30C70500F6BAFB /* Sample0.html in Resources */,
 			);
@@ -424,6 +434,8 @@
 				844BF5661A31E882007B5A48 /* Sample0.html in Resources */,
 				84FFFE0F1A35F35500EEC49B /* Result1.html in Resources */,
 				844BF5671A31E882007B5A48 /* Sample1.html in Resources */,
+				84005A431A37137E0046CD38 /* Sample2.html in Resources */,
+				84005A461A3713890046CD38 /* Result2.html in Resources */,
 				84FFFE0D1A35F35500EEC49B /* Result0.html in Resources */,
 				84FFFE121A35F9F800EEC49B /* SampleDocumentURLs.plist in Resources */,
 				846FF46C1A30BB5C004D4F51 /* Images.xcassets in Resources */,
@@ -705,6 +717,7 @@
 		};
 		846FF45A1A30BB47004D4F51 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EA6EB14E13E80E13D10FAAB /* Pods-ios.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -726,6 +739,7 @@
 		};
 		846FF45B1A30BB47004D4F51 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D891AA9914056DC22B709256 /* Pods-ios.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (

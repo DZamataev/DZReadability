@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import <DZReadability.h>
+
 @interface DZReadability_iOSTests : XCTestCase
 
 @end
@@ -25,16 +27,66 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (NSArray*)sampleDocumentURLs {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"SampleDocumentURLs" ofType:@"plist"];
+    NSArray *result = [NSArray arrayWithContentsOfFile:path];
+    return result;
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testSamples {
+    NSInteger i = 0;
+    NSArray *sampleDocumentURLs = [self sampleDocumentURLs];
+    
+    while (true) {
+        
+        NSString *sampleName = [NSString stringWithFormat:@"Sample%li",(long)i];
+        NSString *samplePath = [[NSBundle mainBundle] pathForResource:sampleName ofType:@"html"];
+        NSString *resultName = [NSString stringWithFormat:@"Result%li",(long)i];
+        NSString *resultPath = [[NSBundle mainBundle] pathForResource:resultName ofType:@"html"];
+        
+        NSURL *docUrl = nil;
+        if (sampleDocumentURLs.count > i) {
+            docUrl = [NSURL URLWithString: sampleDocumentURLs[i]];
+        }
+        
+        if (!samplePath || !docUrl || !resultPath) {
+            break;
+        }
+        
+        NSLog(@"Iteration %li", (long)i);
+        
+        i++;
+        
+        NSString *sampleContent = [NSString stringWithContentsOfFile:samplePath encoding:NSUTF8StringEncoding error:nil];
+        NSString *resultContent = [NSString stringWithContentsOfFile:resultPath encoding:NSUTF8StringEncoding error:nil];
+        
+        XCTestExpectation *expectation;
+        DZReadability *readability;
+        
+        // download and parse
+        //        __block NSString *parsedContent = nil;
+        //        expectation = [self expectationWithDescription:nil];
+        //        readability = [[DZReadability alloc] initWithURLToDownload:docUrl options:kNilOptions completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+        //            XCTAssert(content && content.length > 0);
+        //            parsedContent = content;
+        //            [expectation fulfill];
+        //        }];
+        //        [readability start];
+        //
+        //        [self waitForExpectationsWithTimeout:25.0 handler:nil];
+        
+        // compare parsed samples and result expected
+        expectation = [self expectationWithDescription:nil];
+        readability = [[DZReadability alloc] initWithURL:docUrl rawDocumentContent:sampleContent options:nil completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+            XCTAssert(content && content.length > 0);
+            XCTAssert([resultContent isEqualToString:content]);
+            [expectation fulfill];
+        }];
+        [readability start];
+        
+        [self waitForExpectationsWithTimeout:25.0 handler:nil];
+        
+    }
 }
 
 @end
