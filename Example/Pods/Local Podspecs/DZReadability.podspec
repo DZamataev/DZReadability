@@ -33,9 +33,7 @@ Pod::Spec.new do |s|
     c.source_files = 'Pod/Classes'
     c.requires_arc = true
     c.dependency 'DZReadability/Core-no-arc'
-    c.dependency 'KissXML', '~> 5.0'
-    c.libraries = 'xml2'
-    c.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2' }
+    c.dependency 'HTMLReader'
   end
   
   s.subspec 'Core-no-arc' do |cna|

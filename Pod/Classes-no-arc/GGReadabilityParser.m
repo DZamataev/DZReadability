@@ -8,9 +8,9 @@
 NSString * const	tagNameXPath = @".//%@";
 
 @interface GGReadabilityParser ( private )
-- (BOOL)checkXMLDocument:(NSXMLDocument *)XML bodyElement:(NSXMLElement **)theEl error:(NSError **)error;
-- (NSXMLElement *)findBaseLevelContent:(NSXMLElement *)element error:(NSError **)error;
-- (NSInteger)scoreElement:(NSXMLElement *)element;
+- (BOOL)checkXMLDocument:(HTMLDocument *)XML bodyElement:(HTMLElement **)theEl error:(NSError **)error;
+- (HTMLElement *)findBaseLevelContent:(HTMLElement *)element error:(NSError **)error;
+- (NSInteger)scoreElement:(HTMLElement *)element;
 @end
 
 @implementation GGReadabilityParser
@@ -168,24 +168,11 @@ didReceiveResponse:(NSURLResponse *)response
     
     NSError * error = nil; // we don’t actually pay attention to this
     
-    NSInteger types[2] = {
-        NSXMLDocumentTidyHTML,
-        NSXMLDocumentTidyXML
-    };
+    HTMLDocument * XML = nil;
     
-    NSXMLDocument * XML = nil;
-    
-    // different types, html, xml
-    BOOL OKToGo = NO;
-    for( size_t i = 0; i < sizeof( types ) / sizeof( NSInteger ); i++ )
-    {
-        XML = [[[NSXMLDocument alloc] initWithXMLString:string
-                                                options:types[i]
-                                                  error:&error] autorelease];
+    XML = [HTMLDocument documentWithString:string];
         
-		OKToGo = [self checkXMLDocument:XML bodyElement:NULL error:&error];
-		if (OKToGo)  break;
-    }
+	BOOL OKToGo = [self checkXMLDocument:XML bodyElement:NULL error:&error];
     
     // error out if no xml
     if( ! OKToGo )
@@ -194,12 +181,12 @@ didReceiveResponse:(NSURLResponse *)response
         return;
     }
 	
-	NSXMLElement * element = [self processXMLDocument:XML baseURL:baseURL error:&error];
+    HTMLElement * element = [self processXMLDocument:XML baseURL:baseURL error:&error];
     
     
     // we’re done!
     
-    NSString * returnContents = [element XMLString];
+    NSString * returnContents = [element innerHTML];
     
     // tell our handler :-)
     dispatch_async( dispatch_get_main_queue(), ^(void)
@@ -214,16 +201,15 @@ didReceiveResponse:(NSURLResponse *)response
                    });
 }
 
-- (BOOL)checkXMLDocument:(NSXMLDocument *)XML bodyElement:(NSXMLElement **)theEl error:(NSError **)error;
+- (BOOL)checkXMLDocument:(HTMLDocument *)XML bodyElement:(HTMLElement **)theEl error:(NSError **)error;
 {
 	*error = nil;
     
     // find the body tag
-	NSXMLElement * el = [[XML nodesForXPath:@"//body"
-									  error:error] lastObject];
+    HTMLElement * el = [XML firstNodeMatchingSelector:@"body"];
 	
 	// is there a child count?
-	if( [el childCount] != 0 )
+	if( [el numberOfChildren] != 0 )
 	{
 		if (theEl != NULL)  *theEl = el;
 		return YES;
@@ -233,9 +219,9 @@ didReceiveResponse:(NSURLResponse *)response
 	return NO;
 }
 
-- (NSXMLElement *)processXMLDocument:(NSXMLDocument *)XML baseURL:(NSURL *)theBaseURL error:(NSError **)error;
+- (HTMLElement *)processXMLDocument:(HTMLDocument *)XML baseURL:(NSURL *)theBaseURL error:(NSError **)error;
 {
-    NSXMLElement * theEl = nil;
+    HTMLElement * theEl = nil;
     BOOL OKToGo = NO;
 	
 	OKToGo = [self checkXMLDocument:XML bodyElement:&theEl error:error];
@@ -244,7 +230,7 @@ didReceiveResponse:(NSURLResponse *)response
     if( ! OKToGo )  return nil;
     
     // let the fun begin
-    NSXMLElement * element = [self findBaseLevelContent:theEl error:error];
+    HTMLElement * element = [self findBaseLevelContent:theEl error:error];
     
     if( ! element )
     {
@@ -452,7 +438,7 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 // CHANGEME: rename variables named elem…
-- (NSXMLElement *)findBaseLevelContent:(NSXMLElement *)element error:(NSError **)error;
+- (HTMLElement *)findBaseLevelContent:(HTMLElement *)element error:(NSError **)error;
 {
     // generally speaking, we hope that the content is within the <p> tags
     
@@ -461,11 +447,12 @@ didReceiveResponse:(NSURLResponse *)response
     for( NSString * removeTag in toRemove )
     {
         // find them all
-        NSArray * removeArray = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath, removeTag]
-                                                 error:error];
-        for( NSXMLElement * removeElement in removeArray )
+        NSArray * removeArray = [element nodesMatchingSelector:[NSString stringWithFormat:@"%@", removeTag]];
+//        NSArray * removeArray = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath, removeTag]
+//                                                 error:error];
+        for( HTMLElement * removeElement in removeArray )
         {
-            [removeElement detach];
+            [removeElement removeFromParentNode];
         }
     }
     
@@ -473,18 +460,25 @@ didReceiveResponse:(NSURLResponse *)response
     NSArray * instantWins = [NSArray arrayWithObjects:@"article-body", nil];
     
     NSUInteger pCount = 0;
-    NSXMLElement * foundElement = nil;
+    HTMLElement * foundElement = nil;
     
     for( NSString * instantWinName in instantWins )
     {
-        NSArray * nodes = [element nodesForXPath:[NSString stringWithFormat:@".//*[contains(@class,'%@') or contains(@id,'%@')]", instantWinName, instantWinName]
-                                           error:error];
+        NSArray *nodesOfClass = [element nodesMatchingSelector:[NSString stringWithFormat:@".%@", instantWinName]];
+        NSArray *nodesOfId = [element nodesMatchingSelector:[NSString stringWithFormat:@"#%@", instantWinName]];
+        NSArray *nodes = [NSArray arrayWithArray:[[[NSMutableArray new]
+                                                   arrayByAddingObjectsFromArray:nodesOfClass]
+                                                  arrayByAddingObjectsFromArray:nodesOfId]];
+//        NSArray * nodes = [element nodesForXPath:[NSString stringWithFormat:@".//*[contains(@class,'%@') or contains(@id,'%@')]", instantWinName, instantWinName]
+//                                           error:error];
         if( [nodes count] != 0 )
         {
-            for( NSXMLElement * winElement in nodes )
+            for( HTMLElement * winElement in nodes )
             {
-                NSUInteger count = [[winElement nodesForXPath:@".//p"
-                                                        error:error] count];
+                NSArray *pNodes = [winElement nodesMatchingSelector:@"*p"];
+                NSUInteger count = pNodes.count;
+//                NSUInteger count = [[winElement nodesForXPath:@".//p"
+//                                                        error:error] count];
                 if( count > pCount )
                 {
                     pCount = count;
@@ -500,8 +494,9 @@ didReceiveResponse:(NSURLResponse *)response
         return foundElement;
     }
     
-    NSArray * tags = [element nodesForXPath:@".//p"
-                                      error:error];
+    NSArray *pNodes = [element nodesMatchingSelector:@"*p"];
+//    NSArray * tags = [element nodesForXPath:@".//p"
+//                                      error:error];
     
     NSUInteger currentCount = 0;
     NSXMLElement * tagParent = nil;

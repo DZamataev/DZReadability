@@ -24,9 +24,9 @@ PODS:
     - DZReadability/Core
   - DZReadability/Core (0.1.6):
     - DZReadability/Core-no-arc
-    - KissXML (~> 5.0)
+    - HTMLReader
   - DZReadability/Core-no-arc (0.1.6)
-  - KissXML (5.0)
+  - HTMLReader (0.5.9)
   - MBProgressHUD (0.9)
 
 DEPENDENCIES:
@@ -40,8 +40,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
-  DZReadability: 423ecdecfdba4c287f134f28169bb50d42ddc4d5
-  KissXML: e537c38b18ede903ee6de45953a9bd86c131ebe9
+  DZReadability: b65c2e0df9bb7249daef84240fc211c6c5d13a58
+  HTMLReader: 0833fa2af5fd2019bc2d7a6e8066a07fd0fe87f1
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
 
 COCOAPODS: 0.34.1
