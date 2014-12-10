@@ -242,7 +242,7 @@ didReceiveResponse:(NSURLResponse *)response
     // CHANGEME: The next comment doesn’t match what’s going on in the code!
     // now that we have the base element to work with, let’s remove all <div>s that don’t have a parent of a p
     
-    NSMutableArray * elementsToRemove = [NSMutableArray array];
+    NSMutableArray * elementsToRemove = [NSMutableArray new];
     
     // remove divs
     if( options & GGReadabilityParserOptionRemoveDivs )
@@ -287,25 +287,27 @@ didReceiveResponse:(NSURLResponse *)response
     // remove any tags specified
     for( NSString * tagToRemove in elementsToRemove )
     {
-        NSArray * removeElements = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath, tagToRemove]
-                                                    error:error];
+        NSArray * removeElements = [element nodesMatchingSelector:[NSString stringWithFormat:@"*%@", tagToRemove]];
+//        NSArray * removeElements = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath, tagToRemove]
+//                                                    error:error];
         
-        if( removeElements == nil ) return nil;
+//        if( removeElements == nil ) return nil;
         
-        for( NSXMLElement * removeEl in removeElements )
+        for( HTMLElement * removeEl in removeElements )
         {
-            [removeEl detach];
+            [removeEl removeFromParentNode];
         }
     }
     
     // remove any styles
     if( options & GGReadabilityParserOptionClearStyles )
     {
-        NSArray * cleanArray = [element nodesForXPath:@".//*[@style]"
-                                                error:error];
-        for( NSXMLElement * cleanElement in cleanArray )
+        NSArray *cleanArray = [element nodesMatchingSelector:@"*[@style]"];
+//        NSArray * cleanArray = [element nodesForXPath:@".//*[@style]"
+//                                                error:error];
+        for( HTMLElement * cleanElement in cleanArray )
         {
-            [cleanElement removeAttributeForName:@"style"];
+            [cleanElement removeAttributeWithName:@"style"];
         }
     }
     
@@ -314,124 +316,88 @@ didReceiveResponse:(NSURLResponse *)response
     {
         NSArray * lookFor = [NSArray arrayWithObjects:@"similar", @"bookmark", @"links", @"social", @"nav", @"comments", @"comment", @"date", @"author", @"time", @"cat", @"related", nil];
         
-        NSXMLNode *elem = element;
+        NSArray * attributeNames = @[@"id", @"class"];
         
-        do
-        {
-            NSXMLElement * theElement = ([elem kind] == NSXMLElementKind) ? (NSXMLElement *)elem : nil;
+        
+        void (^recursiveRemoval)(HTMLElement *el, NSArray *toScan, NSArray *toLookFor) = ^void(HTMLElement *el, NSArray *toScan, NSArray *toLookFor) {
             
-            elem = [elem nextNode]; // We do this here, because we might detach elem below
+            BOOL killCondition = NO;
             
-            if (theElement == nil)  continue;
-            
-            // grab the ids
-            // CHANGEME: We could use -cssNamesForAttributeWithName: here
-            NSArray * idNames = [[[theElement attributeForName:@"id"] stringValue] componentsSeparatedByString:@" "];
-            
-            BOOL killElement = NO;
-            for( NSString * idName in idNames )
-            {
-                for( NSString * matchAgainst in lookFor )
-                {
-                    if( [idName rangeOfString:matchAgainst].location != NSNotFound )
-                    {
-                        killElement = YES;
-                        break;
+            for (NSString *scan in toScan) {
+                NSString *found = el[scan];
+                if (found && found.length > 0) {
+                    for (NSString *matchAgainst in toLookFor) {
+                        if ([found rangeOfString:matchAgainst].location != NSNotFound) {
+                            killCondition = YES;
+                            break;
+                        }
                     }
                 }
-                if( killElement )
-                {
+                if (killCondition) {
                     break;
                 }
             }
             
-            if( killElement )
-            {
-                // we can skip the children of theElement, because we are detaching it anyway
-                NSXMLNode * nextSibling = [theElement nextSibling];
-                if (nextSibling != nil)  elem = nextSibling;
-                
-                [theElement detach];
-                continue;
+            if (killCondition) {
+                [el removeFromParentNode];
             }
-            
-            // grab the class names
-            NSArray * classNames = [[[theElement attributeForName:@"class"] stringValue] componentsSeparatedByString:@" "];
-            
-            for( NSString * className in classNames )
-            {
-                for( NSString * matchAgainst in lookFor )
-                {
-                    if( [className rangeOfString:matchAgainst].location != NSNotFound )
-                    {
-                        killElement = YES;
-                        break;
-                    }
-                }
-                if( killElement )
-                {
-                    break;
+            else {
+                NSArray *children = [el childElementNodes];
+                for (HTMLElement *el in children) {
+                    recursiveRemoval(el, toScan, toLookFor);
                 }
             }
-            
-            // if kill element, remove it!
-            if( killElement )
-            {
-                // we can skip the children of theElement, because we are detaching it anyway
-                NSXMLNode * nextSibling = [theElement nextSibling];
-                if (nextSibling != nil)  elem = nextSibling;
-                
-                [theElement detach];
-            }
-            
-        } while (elem != nil);
+        };
+        
+        recursiveRemoval(element, attributeNames, lookFor);
     }
     
     [elementsToRemove removeAllObjects];
     
     // do we need to fix the links or the images?
-    NSMutableArray * elementsToFix = [NSMutableArray array];
+    NSMutableArray * elementsToFix = [NSMutableArray new];
     
     // <img> tags
     if( options & GGReadabilityParserOptionFixImages )
     {
-        [elementsToFix addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"img", @"tagName", @"src", @"attributeName",nil]];
+        [elementsToFix addObject:@{@"tagName" : @"img", @"attributeName" : @"src"}];
     }
     
     // <a> tags
     if( options & GGReadabilityParserOptionFixLinks )
     {
-        [elementsToFix addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"a", @"tagName", @"href", @"attributeName",nil]];
+        [elementsToFix addObject:@{@"tagName" : @"a", @"attributeName" : @"href"}];
     }
     
-    if (theBaseURL != nil) {
-		for( NSDictionary * dict in elementsToFix )
-		{
-			// grab the elements
-			NSArray * els = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath,[dict objectForKey:@"tagName"]]
-											 error:error];
-			
-			if( els == nil )  return nil;
-			
-			NSString * attributeName = [dict objectForKey:@"attributeName"];
-			
-			for( NSXMLElement * fixEl in els )
-			{
-				NSXMLNode * attribute = [fixEl attributeForName:attributeName];
-				NSString * attributeStringValue = [attribute stringValue];
-				
-				// CHANGEME: This ignores relative paths
-				// CHANGEME: This is not necessary when processing webarchives
-				if( [attributeStringValue length] != 0 &&
-				   [attributeStringValue hasPrefix:@"/"] )
-				{
-					// needs fixing
-					NSString * newAttributeString = [[NSURL URLWithString:attributeStringValue
-															relativeToURL:theBaseURL] absoluteString];
-					[attribute setStringValue:newAttributeString];
-				}
-			}
-		}
+    NSURL *fixUrl = baseURL ? baseURL : URL;
+    NSString * fixUrlString = [NSString stringWithFormat:@"%@://%@",[fixUrl scheme],[fixUrl host]];
+    
+    for( NSDictionary * dict in elementsToRemove )
+    {
+        // grab the elements
+        NSString *tagName = [dict objectForKey:@"tagName"];
+        NSArray * els = [element nodesMatchingSelector:[NSString stringWithFormat: @"*%@", tagName]];
+//        NSArray * els = [element nodesForXPath:[NSString stringWithFormat:@"//%@",[dict objectForKey:@"tagName"]]
+//                                         error:&error];
+        for( HTMLElement * fixEl in els )
+        {
+            NSString *attributeName = [dict objectForKey:@"attributeName"];
+            NSString *attribute = fixEl[attributeName];
+            if ( [attribute length] > 1 &&
+                [[attribute substringToIndex:2] isEqualToString:@"//"] )
+            {
+                // needs fixing
+                NSString * newAttributeString = [NSString stringWithFormat:@"%@:%@",[baseURL scheme],attribute];
+                fixEl[attributeName] = newAttributeString;
+            }
+            else if( [attribute length] != 0 &&
+                    [[attribute substringToIndex:1] isEqualToString:@"/"] )
+            {
+                // needs fixing
+                NSString * newAttributeString = [NSString stringWithFormat:@"%@%@",fixUrlString, attribute];
+                fixEl[attributeName] = newAttributeString;
+            }
+        }
     }
     
 	return element;
@@ -551,7 +517,7 @@ didReceiveResponse:(NSURLResponse *)response
     {
         NSUInteger textChildren = 0;
         NSUInteger brCount = 0;
-        for( HTMLElement * el in [tagParent children] )
+        for( HTMLElement * el in [tagParent childElementNodes] )
         {
             if( [[[el tagName] lowercaseString] isEqualToString:@"p"] )
             {
@@ -585,18 +551,18 @@ didReceiveResponse:(NSURLResponse *)response
         // now we’re going to try and find the content, because either they don’t use <p> tags or it’s just horrible markup
         NSMutableArray *scores = [NSMutableArray new];
         
-        __weak typeof(self) welf = self;
-        void (^recursiveScore)(HTMLElement *el) = ^void(HTMLElement *el) {
-            NSArray *children = element.children;
+        void (^recursiveScore)(HTMLElement *el, GGReadabilityParser *scorer, NSMutableArray *scoresTable) =
+        ^void(HTMLElement *el, GGReadabilityParser *scorer, NSMutableArray *scoresTable) {
+            NSArray *children = [element childElementNodes];
             for (HTMLElement *child in children) {
-                recursiveScore(child);
+                recursiveScore(child, scorer, scoresTable);
             }
-            NSInteger *score = [welf scoreElement:el];
+            NSInteger *score = [scorer scoreElement:el];
             if (score > 0)
-                [scores addObject:@{@"element":el,@"score":@(score)}];
+                [scoresTable addObject:@{@"element":el,@"score":@(score)}];
         };
         
-        recursiveScore(element);
+        recursiveScore(element, self, scores);
         
         HTMLElement *winner = nil;
         NSInteger bestScore = 0;
