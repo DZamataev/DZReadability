@@ -494,23 +494,26 @@ didReceiveResponse:(NSURLResponse *)response
         return foundElement;
     }
     
-    NSArray *pNodes = [element nodesMatchingSelector:@"*p"];
+    NSArray *tags = [element nodesMatchingSelector:@"*p"];
 //    NSArray * tags = [element nodesForXPath:@".//p"
 //                                      error:error];
     
     NSUInteger currentCount = 0;
-    NSXMLElement * tagParent = nil;
-    for( NSXMLElement * tag in tags )
+    HTMLElement * tagParent = nil;
+    for( HTMLElement * tag in tags )
     {
-        NSXMLElement * parent = (NSXMLElement *)[tag parent]; // the parent always is an element
-        
-        // count how many p tags are inside the parent
-        NSUInteger parentTagsCount = [[parent nodesForXPath:@"p"
-                                                      error:error] count];
-        if( parentTagsCount > currentCount )
-        {
-            currentCount = parentTagsCount;
-            tagParent = parent;
+        HTMLElement * parent = [tag parentElement]; // the parent always is an element
+        if (parent) {
+            // count how many p tags are inside the parent
+            NSArray *pNodes = [parent nodesMatchingSelector:@"p"];
+            NSUInteger parentTagsCount = pNodes.count;
+//            NSUInteger parentTagsCount = [[parent nodesForXPath:@"p"
+//                                                          error:error] count];
+            if( parentTagsCount > currentCount )
+            {
+                currentCount = parentTagsCount;
+                tagParent = parent;
+            }
         }
     }
     
@@ -521,20 +524,24 @@ didReceiveResponse:(NSURLResponse *)response
         // try old school br tags
         currentCount = 0;
         usingBR = YES;
-        tags = [element nodesForXPath:@".//br"
-                                error:error];
-        for( NSXMLElement * tag in tags )
+        NSArray *tags = [parent nodesMatchingSelector:@"*br"];
+//        tags = [element nodesForXPath:@".//br"
+//                                error:error];
+        for( HTMLElement * tag in tags )
         {
-            NSXMLElement * parent = (NSXMLElement *)[tag parent];
-            
-            // count how many br tags there are
-            NSUInteger parentTagsCount = [[parent nodesForXPath:@"br"
-                                                          error:error] count];
-            parentTagsCount += [self scoreElement:parent];
-            if( parentTagsCount > currentCount )
-            {
-                currentCount = parentTagsCount;
-                tagParent = parent;
+            HTMLElement * parent = [tag parentElement];
+            if (parent) {
+                // count how many br tags there are
+                NSArray *brNodes = [parent nodesMatchingSelector:@"*p"];
+                NSUInteger parentTagsCount = brNodes.count;
+//                NSUInteger parentTagsCount = [[parent nodesForXPath:@"br"
+//                                                              error:error] count];
+                parentTagsCount += [self scoreElement:parent];
+                if( parentTagsCount > currentCount )
+                {
+                    currentCount = parentTagsCount;
+                    tagParent = parent;
+                }
             }
         }
     }
@@ -544,12 +551,12 @@ didReceiveResponse:(NSURLResponse *)response
     {
         NSUInteger textChildren = 0;
         NSUInteger brCount = 0;
-        for( NSXMLElement * el in [tagParent children] )
+        for( HTMLElement * el in [tagParent children] )
         {
-            if( [el kind] == NSXMLTextKind )
+            if( [[[el tagName] lowercaseString] isEqualToString:@"p"] )
             {
                 textChildren++;
-            } else if ( [[[el name] lowercaseString] isEqualToString:@"br"] ) {
+            } else if ( [[[el tagName] lowercaseString] isEqualToString:@"br"] ) {
                 brCount++;
             }
         }
@@ -560,11 +567,12 @@ didReceiveResponse:(NSURLResponse *)response
             tagParent = nil;
         } else {
             // remove any br tags directly next to each other
-            NSArray * brs = [tagParent nodesForXPath:@".//br[preceding-sibling::br[1]]"
-                                               error:error];
-            for( NSXMLElement * br in brs )
+            NSArray * brs = [tagParent nodesMatchingSelector:@"br[preceding-sibling::br[1]]"];
+//            NSArray * brs = [tagParent nodesForXPath:@".//br[preceding-sibling::br[1]]"
+//                                               error:error];
+            for( HTMLElement * br in brs )
             {
-                [br detach];
+                [br removeFromParentNode];
             }
         }
         
@@ -575,52 +583,45 @@ didReceiveResponse:(NSURLResponse *)response
     {
         
         // now we’re going to try and find the content, because either they don’t use <p> tags or it’s just horrible markup
+        NSMutableArray *scores = [NSMutableArray new];
         
-        NSMutableDictionary * scoreDict = [NSMutableDictionary dictionary];
+        __weak typeof(self) welf = self;
+        void (^recursiveScore)(HTMLElement *el) = ^void(HTMLElement *el) {
+            NSArray *children = element.children;
+            for (HTMLElement *child in children) {
+                recursiveScore(child);
+            }
+            NSInteger *score = [welf scoreElement:el];
+            if (score > 0)
+                [scores addObject:@{@"element":el,@"score":@(score)}];
+        };
         
-        // grab everything that has it within class or id
-        NSXMLNode * elem = element;
+        recursiveScore(element);
         
-        do
-        {
-            NSXMLElement * el;
-            if( [elem kind] == NSXMLElementKind )  el = (NSXMLElement *)elem;
-            else  continue;
-            
-            // grab its hash
-            NSNumber *scoreNum = [scoreDict objectForKey:el];
-            
-            NSInteger score = scoreNum ? [scoreNum integerValue] : 0;
-            score += [self scoreElement:el];
-            
-            // store it in the dict
-            [scoreDict setObject:[NSNumber numberWithInteger:score]
-                          forKey:el];
-        } while ((elem = [elem nextNode]) != nil);
+        HTMLElement *winner = nil;
+        NSInteger bestScore = 0;
         
-        __block NSXMLElement *bestKey = nil;
-        __block NSInteger bestScore = 0;
-        [scoreDict enumerateKeysAndObjectsUsingBlock:^(NSXMLElement *key, NSNumber *scoreNum, BOOL *stop)
-         {
-             NSInteger score = [scoreNum integerValue];
-             if (score > bestScore)
-             {
-                 bestKey = key;
-                 bestScore = score;
-             }
-         }];
-        
-        // CHANGEME: The above use of an NSMutableDictionary will fail horribly if there happen to be two NSXMLElement objects in the tree that are equal as defined by -isEqual: . The problem here is that the equality check will ignore the location of the element within the tree. If we try to actually use the scores to find a suitable element the resulting element we get is not deterministic from a global perspective. We can apply the solution used in readability-objc (HashableElement): https://github.com/JanX2/readability-objc [Jan]
-        
-        // set the parent tag
-        tagParent = bestKey;
+        for (NSDictionary *scoreResult in scores) {
+            NSInteger score = scoreResult[@"score"];
+            if (score > bestScore) {
+                bestScore = score;
+                winner = scoreResult[@"element"];
+            }
+        }
+
+        if (winner) {
+            tagParent = winner;
+        }
+        else {
+            NSLog(@"Scoring doesn't work today");
+        }
         
     }
     
     return tagParent;
 }
 
-- (NSInteger)scoreElement:(NSXMLElement *)element
+- (NSInteger)scoreElement:(HTMLElement *)element
 {
     // these are key words that will probably be inside the class or id of the element that contains the content
     // CHANGEME: move the scores array into an ivar
@@ -632,8 +633,8 @@ didReceiveResponse:(NSURLResponse *)response
         
         // grab the class names and id names
         // CHANGEME: We could use -cssNamesForAttributeWithName: here
-        NSArray * classNames = [[[element attributeForName:@"class"] stringValue] componentsSeparatedByString:@" "];
-        NSArray * idNames = [[[element attributeForName:@"id"] stringValue] componentsSeparatedByString:@" "];
+        NSArray * classNames = [element[@"class"] componentsSeparatedByString:@" "];
+        NSArray * idNames = [element[@"id"] componentsSeparatedByString:@" "];
         
         // match against the positive class
         for( NSString * className in classNames )
