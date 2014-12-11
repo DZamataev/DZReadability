@@ -84,7 +84,7 @@
         }];
         [readability start];
         
-        [self waitForExpectationsWithTimeout:25.0 handler:nil];
+        [self waitForExpectationsWithTimeout:999999 handler:nil];
         
     }
 }

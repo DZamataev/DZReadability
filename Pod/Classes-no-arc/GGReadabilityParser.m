@@ -220,7 +220,7 @@ didReceiveResponse:(NSURLResponse *)response
 }
 
 - (HTMLElement *)processXMLDocument:(HTMLDocument *)XML baseURL:(NSURL *)theBaseURL error:(NSError **)error;
-{
+{    
     HTMLElement * theEl = nil;
     BOOL OKToGo = NO;
 	
@@ -287,7 +287,7 @@ didReceiveResponse:(NSURLResponse *)response
     // remove any tags specified
     for( NSString * tagToRemove in elementsToRemove )
     {
-        NSArray * removeElements = [element nodesMatchingSelector:[NSString stringWithFormat:@"*%@", tagToRemove]];
+        NSArray * removeElements = [element nodesMatchingSelector:[NSString stringWithFormat:@"* %@", tagToRemove]];
 //        NSArray * removeElements = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath, tagToRemove]
 //                                                    error:error];
         
@@ -295,20 +295,31 @@ didReceiveResponse:(NSURLResponse *)response
         
         for( HTMLElement * removeEl in removeElements )
         {
-            [removeEl removeFromParentNode];
+            if (removeEl != element)
+                [removeEl removeFromParentNode];
         }
     }
     
     // remove any styles
     if( options & GGReadabilityParserOptionClearStyles )
     {
-        NSArray *cleanArray = [element nodesMatchingSelector:@"*[@style]"];
+//        NSArray *cleanArray = [element nodesMatchingSelector:@"*[@style]"];
 //        NSArray * cleanArray = [element nodesForXPath:@".//*[@style]"
 //                                                error:error];
-        for( HTMLElement * cleanElement in cleanArray )
-        {
-            [cleanElement removeAttributeWithName:@"style"];
-        }
+//        for( HTMLElement * cleanElement in cleanArray )
+//        {
+//            [cleanElement removeAttributeWithName:@"style"];
+//        }
+        __unsafe_unretained __block void (^recursive_style_clear_block)(HTMLElement *);
+        void (^style_clear_block)(HTMLElement *) = ^void(HTMLElement *el) {
+            NSArray *children = [el childElementNodes];
+            for (HTMLElement *childEl in children) {
+                recursive_style_clear_block(childEl);
+            }
+            [el removeAttributeWithName:@"style"];
+        };
+        recursive_style_clear_block = style_clear_block;
+        style_clear_block(element);
     }
     
     // clear link lists
@@ -318,8 +329,9 @@ didReceiveResponse:(NSURLResponse *)response
         
         NSArray * attributeNames = @[@"id", @"class"];
         
-        
-        void (^recursiveRemoval)(HTMLElement *el, NSArray *toScan, NSArray *toLookFor) = ^void(HTMLElement *el, NSArray *toScan, NSArray *toLookFor) {
+        __unsafe_unretained __block void (^recursive_removal_block)(HTMLElement *, NSArray *, NSArray *);
+        void (^removal_block)(HTMLElement *, NSArray *, NSArray *) =
+        ^void(HTMLElement *el, NSArray *toScan, NSArray *toLookFor) {
             
             BOOL killCondition = NO;
             
@@ -344,12 +356,13 @@ didReceiveResponse:(NSURLResponse *)response
             else {
                 NSArray *children = [el childElementNodes];
                 for (HTMLElement *el in children) {
-                    recursiveRemoval(el, toScan, toLookFor);
+                    recursive_removal_block(el, toScan, toLookFor);
                 }
             }
         };
+        recursive_removal_block = removal_block;
         
-        recursiveRemoval(element, attributeNames, lookFor);
+        removal_block(element, attributeNames, lookFor);
     }
     
     [elementsToRemove removeAllObjects];
@@ -376,7 +389,7 @@ didReceiveResponse:(NSURLResponse *)response
     {
         // grab the elements
         NSString *tagName = [dict objectForKey:@"tagName"];
-        NSArray * els = [element nodesMatchingSelector:[NSString stringWithFormat: @"*%@", tagName]];
+        NSArray * els = [element nodesMatchingSelector:[NSString stringWithFormat: @"* %@", tagName]];
 //        NSArray * els = [element nodesForXPath:[NSString stringWithFormat:@"//%@",[dict objectForKey:@"tagName"]]
 //                                         error:&error];
         for( HTMLElement * fixEl in els )
@@ -430,8 +443,8 @@ didReceiveResponse:(NSURLResponse *)response
     
     for( NSString * instantWinName in instantWins )
     {
-        NSArray *nodesOfClass = [element nodesMatchingSelector:[NSString stringWithFormat:@".%@", instantWinName]];
-        NSArray *nodesOfId = [element nodesMatchingSelector:[NSString stringWithFormat:@"#%@", instantWinName]];
+        NSArray *nodesOfClass = [element nodesMatchingSelector:[NSString stringWithFormat:@". %@", instantWinName]];
+        NSArray *nodesOfId = [element nodesMatchingSelector:[NSString stringWithFormat:@"# %@", instantWinName]];
         NSArray *nodes = [NSArray arrayWithArray:[[[NSMutableArray new]
                                                    arrayByAddingObjectsFromArray:nodesOfClass]
                                                   arrayByAddingObjectsFromArray:nodesOfId]];
@@ -441,7 +454,7 @@ didReceiveResponse:(NSURLResponse *)response
         {
             for( HTMLElement * winElement in nodes )
             {
-                NSArray *pNodes = [winElement nodesMatchingSelector:@"*p"];
+                NSArray *pNodes = [winElement nodesMatchingSelector:@"* p"];
                 NSUInteger count = pNodes.count;
 //                NSUInteger count = [[winElement nodesForXPath:@".//p"
 //                                                        error:error] count];
@@ -460,7 +473,7 @@ didReceiveResponse:(NSURLResponse *)response
         return foundElement;
     }
     
-    NSArray *tags = [element nodesMatchingSelector:@"*p"];
+    NSArray *tags = [element nodesMatchingSelector:@"* p"];
 //    NSArray * tags = [element nodesForXPath:@".//p"
 //                                      error:error];
     
@@ -490,7 +503,7 @@ didReceiveResponse:(NSURLResponse *)response
         // try old school br tags
         currentCount = 0;
         usingBR = YES;
-        NSArray *tags = [parent nodesMatchingSelector:@"*br"];
+        NSArray *tags = [element nodesMatchingSelector:@"* br"];
 //        tags = [element nodesForXPath:@".//br"
 //                                error:error];
         for( HTMLElement * tag in tags )
@@ -498,7 +511,7 @@ didReceiveResponse:(NSURLResponse *)response
             HTMLElement * parent = [tag parentElement];
             if (parent) {
                 // count how many br tags there are
-                NSArray *brNodes = [parent nodesMatchingSelector:@"*p"];
+                NSArray *brNodes = [parent nodesMatchingSelector:@"* p"];
                 NSUInteger parentTagsCount = brNodes.count;
 //                NSUInteger parentTagsCount = [[parent nodesForXPath:@"br"
 //                                                              error:error] count];
@@ -551,24 +564,26 @@ didReceiveResponse:(NSURLResponse *)response
         // now we’re going to try and find the content, because either they don’t use <p> tags or it’s just horrible markup
         NSMutableArray *scores = [NSMutableArray new];
         
-        void (^recursiveScore)(HTMLElement *el, GGReadabilityParser *scorer, NSMutableArray *scoresTable) =
+        __unsafe_unretained __block void (^recursive_score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *);
+        void (^score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *) =
         ^void(HTMLElement *el, GGReadabilityParser *scorer, NSMutableArray *scoresTable) {
             NSArray *children = [element childElementNodes];
             for (HTMLElement *child in children) {
-                recursiveScore(child, scorer, scoresTable);
+                recursive_score_block(child, scorer, scoresTable);
             }
-            NSInteger *score = [scorer scoreElement:el];
+            NSInteger score = [scorer scoreElement:el];
             if (score > 0)
                 [scoresTable addObject:@{@"element":el,@"score":@(score)}];
         };
+        recursive_score_block = score_block;
         
-        recursiveScore(element, self, scores);
+        score_block(element, self, scores);
         
         HTMLElement *winner = nil;
         NSInteger bestScore = 0;
         
         for (NSDictionary *scoreResult in scores) {
-            NSInteger score = scoreResult[@"score"];
+            NSInteger score = [scoreResult[@"score"] integerValue];
             if (score > bestScore) {
                 bestScore = score;
                 winner = scoreResult[@"element"];
@@ -595,7 +610,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSInteger score = 0;
     for( NSString * positiveWord in scores )
     {
-        score += [[[element name] lowercaseString] isEqualToString:positiveWord] ? 150 : 0;
+        score += [[[element tagName] lowercaseString] isEqualToString:positiveWord] ? 150 : 0;
         
         // grab the class names and id names
         // CHANGEME: We could use -cssNamesForAttributeWithName: here
