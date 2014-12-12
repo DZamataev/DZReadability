@@ -280,6 +280,16 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
+    // remove audio
+    if (options & GGReadabilityParserOptionRemoveAudio) {
+        [elementsToRemove addObject:@"audio"];
+    }
+    
+    // remove video
+    if (options & GGReadabilityParserOptionRemoveVideo) {
+        [elementsToRemove addObject:@"video"];
+    }
+    
     // remove any tags specified
     for( NSString * tagToRemove in elementsToRemove )
     {

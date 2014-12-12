@@ -7,10 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DZReadability_constants.h"
 #import "GGReadabilityParser.h"
-
-
-
 
 @class DZReadability;
 

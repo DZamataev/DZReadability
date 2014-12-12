@@ -72,6 +72,8 @@
     | GGReadabilityParserOptionDownloadImages
     | GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes
     | GGReadabilityParserOptionClearClassesAndIds
+    | GGReadabilityParserOptionRemoveAudio
+    | GGReadabilityParserOptionRemoveVideo
     ;
     
     return options;
