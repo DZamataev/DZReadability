@@ -283,7 +283,7 @@ didReceiveResponse:(NSURLResponse *)response
     // remove any tags specified
     for( NSString * tagToRemove in elementsToRemove )
     {
-        NSArray * removeElements = [element nodesMatchingSelector:[NSString stringWithFormat:@"* %@", tagToRemove]];
+        NSArray * removeElements = [element nodesMatchingSelector:[NSString stringWithFormat:@"%@", tagToRemove]];
 //        NSArray * removeElements = [element nodesForXPath:[NSString stringWithFormat:tagNameXPath, tagToRemove]
 //                                                    error:error];
         
@@ -363,7 +363,7 @@ didReceiveResponse:(NSURLResponse *)response
     {
         // grab the elements
         NSString *tagName = [dict objectForKey:@"tagName"];
-        NSArray * els = [element nodesMatchingSelector:[NSString stringWithFormat: @"* %@", tagName]];
+        NSArray * els = [element nodesMatchingSelector:[NSString stringWithFormat: @"%@", tagName]];
 //        NSArray * els = [element nodesForXPath:[NSString stringWithFormat:@"//%@",[dict objectForKey:@"tagName"]]
 //                                         error:&error];
         for( HTMLElement * fixEl in els )
@@ -421,7 +421,7 @@ didReceiveResponse:(NSURLResponse *)response
     if ( options & GGReadabilityParserOptionDownloadImages )
     {
         // grab images
-        NSArray * els = [element nodesMatchingSelector:@"* img"];
+        NSArray * els = [element nodesMatchingSelector:@"img"];
 //        NSArray * els = [element nodesForXPath:@"//img" error:&error];
         
         for ( HTMLElement * fixEl in els ) {
@@ -476,7 +476,7 @@ didReceiveResponse:(NSURLResponse *)response
     if ( options & GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes )
     {
         // grab images
-        NSArray * els = [element nodesMatchingSelector:@"* img"];
+        NSArray * els = [element nodesMatchingSelector:@"img"];
 //        NSArray * els = [element nodesForXPath:@"//img" error:&error];
         
         for ( HTMLElement * fixEl in els ) {
@@ -526,7 +526,7 @@ didReceiveResponse:(NSURLResponse *)response
         {
             for( HTMLElement * winElement in nodes )
             {
-                NSArray *pNodes = [winElement nodesMatchingSelector:@"* p"];
+                NSArray *pNodes = [winElement nodesMatchingSelector:@"p"];
                 NSUInteger count = pNodes.count;
 //                NSUInteger count = [[winElement nodesForXPath:@".//p"
 //                                                        error:error] count];
@@ -545,7 +545,7 @@ didReceiveResponse:(NSURLResponse *)response
         return foundElement;
     }
     
-    NSArray *tags = [element nodesMatchingSelector:@"* p"];
+    NSArray *tags = [element nodesMatchingSelector:@"p"];
 //    NSArray * tags = [element nodesForXPath:@".//p"
 //                                      error:error];
     
@@ -575,23 +575,26 @@ didReceiveResponse:(NSURLResponse *)response
         // try old school br tags
         currentCount = 0;
         usingBR = YES;
-        NSArray *tags = [element nodesMatchingSelector:@"* br"];
+        NSArray *tags = [element nodesMatchingSelector:@"br"];
 //        tags = [element nodesForXPath:@".//br"
 //                                error:error];
         for( HTMLElement * tag in tags )
         {
             HTMLElement * parent = [tag parentElement];
             if (parent) {
-                // count how many br tags there are
-                NSArray *brNodes = [parent nodesMatchingSelector:@"* p"];
-                NSUInteger parentTagsCount = brNodes.count;
-//                NSUInteger parentTagsCount = [[parent nodesForXPath:@"br"
-//                                                              error:error] count];
-                parentTagsCount += [self scoreElement:parent];
-                if( parentTagsCount > currentCount )
-                {
-                    currentCount = parentTagsCount;
-                    tagParent = parent;
+                if (tagParent != parent) {
+                    // count how many br tags there are
+                    NSArray *brNodes = [parent nodesMatchingSelector:@"br"];
+                    NSUInteger parentTagsCount = brNodes.count;
+//                    NSUInteger parentTagsCount = [[parent nodesForXPath:@"br"
+//                                                                  error:error] count];
+                    NSInteger score = [self scoreElement:parent];
+                    parentTagsCount += score;
+                    if( parentTagsCount > currentCount )
+                    {
+                        currentCount = parentTagsCount;
+                        tagParent = parent;
+                    }
                 }
             }
         }
@@ -641,7 +644,7 @@ didReceiveResponse:(NSURLResponse *)response
         __weak __block void (^recursive_score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *);
         void (^score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *) =
         ^void(HTMLElement *el, GGReadabilityParser *scorer, NSMutableArray *scoresTable) {
-            NSArray *children = [element childElementNodes];
+            NSArray *children = [el childElementNodes];
             for (HTMLElement *child in children) {
                 recursive_score_block(child, scorer, scoresTable);
             }
