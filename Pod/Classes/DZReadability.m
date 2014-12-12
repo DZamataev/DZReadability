@@ -71,6 +71,7 @@
 //    | GGReadabilityParserOptionRemoveImages
     | GGReadabilityParserOptionDownloadImages
     | GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes
+    | GGReadabilityParserOptionClearClassesAndIds
     ;
     
     return options;

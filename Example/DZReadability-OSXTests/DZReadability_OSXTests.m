@@ -80,11 +80,12 @@
         readability = [[DZReadability alloc] initWithURL:docUrl rawDocumentContent:sampleContent options:nil completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
             XCTAssert(content && content.length > 0);
             XCTAssert([resultContent isEqualToString:content]);
+            NSLog(@"result content:\n%@", content);
             [expectation fulfill];
         }];
         [readability start];
         
-        [self waitForExpectationsWithTimeout:25.0 handler:nil];
+        [self waitForExpectationsWithTimeout:999999 handler:nil];
         
     }
 }

@@ -296,28 +296,6 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
-    // remove any styles
-    if( options & GGReadabilityParserOptionClearStyles )
-    {
-//        NSArray *cleanArray = [element nodesMatchingSelector:@"*[@style]"];
-//        NSArray * cleanArray = [element nodesForXPath:@".//*[@style]"
-//                                                error:error];
-//        for( HTMLElement * cleanElement in cleanArray )
-//        {
-//            [cleanElement removeAttributeWithName:@"style"];
-//        }
-        __unsafe_unretained __block void (^recursive_style_clear_block)(HTMLElement *);
-        void (^style_clear_block)(HTMLElement *) = ^void(HTMLElement *el) {
-            NSArray *children = [el childElementNodes];
-            for (HTMLElement *childEl in children) {
-                recursive_style_clear_block(childEl);
-            }
-            [el removeAttributeWithName:@"style"];
-        };
-        recursive_style_clear_block = style_clear_block;
-        style_clear_block(element);
-    }
-    
     // clear link lists
     if( options & GGReadabilityParserOptionClearLinkLists )
     {
@@ -325,7 +303,7 @@ didReceiveResponse:(NSURLResponse *)response
         
         NSArray * attributeNames = @[@"id", @"class"];
         
-        __unsafe_unretained __block void (^recursive_removal_block)(HTMLElement *, NSArray *, NSArray *);
+        __weak __block void (^recursive_removal_block)(HTMLElement *, NSArray *, NSArray *);
         void (^removal_block)(HTMLElement *, NSArray *, NSArray *) =
         ^void(HTMLElement *el, NSArray *toScan, NSArray *toLookFor) {
             
@@ -409,6 +387,37 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
+    // clearing attributes
+    NSMutableArray *attributesToClear = [NSMutableArray new];
+    
+    // remove any styles
+    if( options & GGReadabilityParserOptionClearStyles )
+    {
+        [attributesToClear addObjectsFromArray:@[ @"style" ]];
+    }
+    
+    // remove classes and id's
+    if (options & GGReadabilityParserOptionClearClassesAndIds) {
+        [attributesToClear addObjectsFromArray:@[ @"class", @"id" ]];
+    }
+    
+    if ([attributesToClear count] > 0) {
+        NSArray *attributes = [NSArray arrayWithArray:attributesToClear];
+        __weak __block void (^recursive_clear_block)(HTMLElement *, NSArray *);
+        void (^clear_block)(HTMLElement *, NSArray *) = ^void(HTMLElement *el, NSArray *attributes) {
+            NSArray *children = [el childElementNodes];
+            for (HTMLElement *childEl in children) {
+                recursive_clear_block(childEl, attributes);
+            }
+            for (NSString *attribute in attributes) {
+                [el removeAttributeWithName:attribute];
+            }
+        };
+        recursive_clear_block = clear_block;
+        clear_block(element, attributes);
+    }
+    
+    // download images
     if ( options & GGReadabilityParserOptionDownloadImages )
     {
         // grab images
@@ -463,6 +472,7 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
+    // remove image attributes
     if ( options & GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes )
     {
         // grab images
@@ -592,7 +602,9 @@ didReceiveResponse:(NSURLResponse *)response
     {
         NSUInteger textChildren = 0;
         NSUInteger brCount = 0;
-        for( HTMLElement * el in [tagParent childElementNodes] )
+        
+        NSArray *children = [tagParent childElementNodes];
+        for( HTMLElement * el in children )
         {
             if( [[[el tagName] lowercaseString] isEqualToString:@"p"] )
             {
@@ -626,7 +638,7 @@ didReceiveResponse:(NSURLResponse *)response
         // now we’re going to try and find the content, because either they don’t use <p> tags or it’s just horrible markup
         NSMutableArray *scores = [NSMutableArray new];
         
-        __unsafe_unretained __block void (^recursive_score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *);
+        __weak __block void (^recursive_score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *);
         void (^score_block)(HTMLElement *, GGReadabilityParser *, NSMutableArray *) =
         ^void(HTMLElement *el, GGReadabilityParser *scorer, NSMutableArray *scoresTable) {
             NSArray *children = [element childElementNodes];
