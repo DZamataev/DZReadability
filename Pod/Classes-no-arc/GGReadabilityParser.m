@@ -413,6 +413,53 @@ didReceiveResponse:(NSURLResponse *)response
         }
     }
     
+    if ( options & GGReadabilityParserOptionDownloadImages )
+    {
+        // grab images
+        NSArray * els = [element nodesMatchingSelector:@"* img"];
+//        NSArray * els = [element nodesForXPath:@"//img" error:&error];
+        
+        for ( HTMLElement * fixEl in els ) {
+            NSString * attribute = fixEl[@"src"];
+            NSURL * url = [NSURL URLWithString:attribute];
+            if ( url ) {
+                // download image
+                NSError *downloadError = nil;
+                
+                NSData * imageData = [NSData dataWithContentsOfURL:url options:0 error:&downloadError];
+                if (downloadError) {
+                    NSLog(@"Error downloading image: %@", downloadError);
+                }
+                
+                if (imageData) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    if (image) {
+                        NSData *pngRepresentation = UIImagePNGRepresentation(image);
+                        if (pngRepresentation) {
+                            NSString *base64EncodedImage = [pngRepresentation base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+                            if (base64EncodedImage) {
+                                NSString *dataSrc = [@"data:image/png;base64," stringByAppendingString:base64EncodedImage];
+                                fixEl[@"src"] = dataSrc;                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    if ( options & GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes )
+    {
+        // grab images
+        NSArray * els = [element nodesMatchingSelector:@"* img"];
+//        NSArray * els = [element nodesForXPath:@"//img" error:&error];
+        
+        for ( HTMLElement * fixEl in els ) {
+            [fixEl removeAttributeWithName:@"width"];
+            [fixEl removeAttributeWithName:@"height"];
+        }
+    }
+    
 	return element;
 }
 

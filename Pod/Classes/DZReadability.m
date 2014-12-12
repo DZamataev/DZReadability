@@ -63,12 +63,14 @@
     | GGReadabilityParserOptionClearStyles
     | GGReadabilityParserOptionFixImages
     | GGReadabilityParserOptionFixLinks
-    | GGReadabilityParserOptionRemoveDivs
+//    | GGReadabilityParserOptionRemoveDivs
     | GGReadabilityParserOptionRemoveEmbeds
-    | GGReadabilityParserOptionRemoveHeader
-    | GGReadabilityParserOptionRemoveHeaders
+//    | GGReadabilityParserOptionRemoveHeader
+//    | GGReadabilityParserOptionRemoveHeaders
     | GGReadabilityParserOptionRemoveIFrames
-    //| GGReadabilityParserOptionRemoveImages
+//    | GGReadabilityParserOptionRemoveImages
+    | GGReadabilityParserOptionDownloadImages
+    | GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes
     ;
     
     return options;
