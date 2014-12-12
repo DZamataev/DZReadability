@@ -4,9 +4,6 @@
 
 #import "GGReadabilityParser.h"
 
-// Original XPath: @".//%@". Alternative XPath: @".//*[matches(name(),'%@','i')]"
-NSString * const	tagNameXPath = @".//%@";
-
 @interface GGReadabilityParser ( private )
 - (BOOL)checkXMLDocument:(HTMLDocument *)XML bodyElement:(HTMLElement **)theEl error:(NSError **)error;
 - (HTMLElement *)findBaseLevelContent:(HTMLElement *)element error:(NSError **)error;
@@ -21,14 +18,13 @@ NSString * const	tagNameXPath = @".//%@";
 
 - (void)dealloc
 {
-    [URL release], URL = nil;
-    [baseURL release], baseURL = nil;
-    [URLResponse release], URLResponse = nil;
-    [completionHandler release], completionHandler = nil;
-    [errorHandler release], errorHandler = nil;
-    [responseData release], responseData = nil;
-    [URLConnection release], URLConnection = nil;
-    [super dealloc];
+    URL = nil;
+    baseURL = nil;
+    URLResponse = nil;
+    completionHandler = nil;
+    errorHandler = nil;
+    responseData = nil;
+    URLConnection = nil;
 }
 
 - (id)initWithOptions:(GGReadabilityParserOptions)parserOptions;
@@ -47,7 +43,7 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 {
     if( ( self = [super init] ) != nil )
     {
-        URL = [aURL retain];
+        URL = aURL;
         options = parserOptions;
         completionHandler = [cHandler copy];
         errorHandler = [eHandler copy];
@@ -68,7 +64,7 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (NSError *)defaultError
 {
     NSString * errorString = @"Readability was unable to find any suitable content.";
-    NSError * error = [NSError errorWithDomain:@"com.geekygoodness.readability"
+    NSError * error = [NSError errorWithDomain:@"DZReadabilityErrorDomain"
                                           code:1
                                       userInfo:[NSDictionary dictionaryWithObject:errorString
                                                                            forKey:NSLocalizedDescriptionKey]];
@@ -86,8 +82,8 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)render
 {
     // set up the url connection
-    URLConnection = [[NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:URL]
-                                                   delegate:self] retain];
+    URLConnection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:URL]
+                                                  delegate:self];
     [URLConnection start];
 }
 
@@ -102,8 +98,8 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)connection:(NSURLConnection *)connection
 didReceiveResponse:(NSURLResponse *)response
 {
-    URLResponse = [response retain];
-    baseURL = [[URLResponse URL] retain];
+    URLResponse = response;
+    baseURL = [URLResponse URL];
     dataLength = [response expectedContentLength];
 }
 
@@ -135,8 +131,8 @@ didReceiveResponse:(NSURLResponse *)response
                        // some sites might not be UTF8, so try until nil
                        for( size_t i = 0; i < sizeof( encodings ) / sizeof( NSInteger ); i++ )
                        {
-                           if( ( str = [[[NSString alloc] initWithData:responseData
-                                                              encoding:encodings[i]] autorelease] ) != nil )
+                           if( ( str = [[NSString alloc] initWithData:responseData
+                                                              encoding:encodings[i]] ) != nil )
                            {
                                break;
                            }
@@ -432,6 +428,7 @@ didReceiveResponse:(NSURLResponse *)response
                 }
                 
                 if (imageData) {
+#if TARGET_OS_IPHONE
                     UIImage *image = [UIImage imageWithData:imageData];
                     if (image) {
                         NSData *pngRepresentation = UIImagePNGRepresentation(image);
@@ -439,9 +436,27 @@ didReceiveResponse:(NSURLResponse *)response
                             NSString *base64EncodedImage = [pngRepresentation base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
                             if (base64EncodedImage) {
                                 NSString *dataSrc = [@"data:image/png;base64," stringByAppendingString:base64EncodedImage];
-                                fixEl[@"src"] = dataSrc;                            }
+                                fixEl[@"src"] = dataSrc;
+                            }
                         }
                     }
+#elif TARGET_OS_MAC
+                    NSImage *image = [[NSImage alloc] initWithData:imageData];
+                    if (image) {
+                        [image lockFocus];
+                        NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithFocusedViewRect:NSMakeRect(0, 0, image.size.width, image.size.height)];
+                        [image unlockFocus];
+                        NSData *pngRepresentation = [bitmapRep representationUsingType:NSPNGFileType properties:Nil];
+                        if (pngRepresentation) {
+                            NSString *base64EncodedImage = [pngRepresentation base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+                            if (base64EncodedImage) {
+                                NSString *dataSrc = [@"data:image/png;base64," stringByAppendingString:base64EncodedImage];
+                                fixEl[@"src"] = dataSrc;
+                            }
+                        }
+                    }
+#endif
+                    
                 }
                 
             }

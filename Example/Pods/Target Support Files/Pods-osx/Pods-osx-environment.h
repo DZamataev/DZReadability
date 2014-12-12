@@ -45,20 +45,14 @@
 // DZReadability
 #define COCOAPODS_POD_AVAILABLE_DZReadability
 #define COCOAPODS_VERSION_MAJOR_DZReadability 0
-#define COCOAPODS_VERSION_MINOR_DZReadability 1
-#define COCOAPODS_VERSION_PATCH_DZReadability 6
+#define COCOAPODS_VERSION_MINOR_DZReadability 2
+#define COCOAPODS_VERSION_PATCH_DZReadability 0
 
 // DZReadability/Core
 #define COCOAPODS_POD_AVAILABLE_DZReadability_Core
 #define COCOAPODS_VERSION_MAJOR_DZReadability_Core 0
-#define COCOAPODS_VERSION_MINOR_DZReadability_Core 1
-#define COCOAPODS_VERSION_PATCH_DZReadability_Core 6
-
-// DZReadability/Core-no-arc
-#define COCOAPODS_POD_AVAILABLE_DZReadability_Core_no_arc
-#define COCOAPODS_VERSION_MAJOR_DZReadability_Core_no_arc 0
-#define COCOAPODS_VERSION_MINOR_DZReadability_Core_no_arc 1
-#define COCOAPODS_VERSION_PATCH_DZReadability_Core_no_arc 6
+#define COCOAPODS_VERSION_MINOR_DZReadability_Core 2
+#define COCOAPODS_VERSION_PATCH_DZReadability_Core 0
 
 // HTMLReader
 #define COCOAPODS_POD_AVAILABLE_HTMLReader

@@ -1,1 +1,1 @@
-../../../../../Pod/Classes-no-arc/GGReadabilityParser.h
+../../../../../Pod/Classes/GGReadabilityParser.h
