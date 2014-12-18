@@ -74,6 +74,7 @@
     | GGReadabilityParserOptionClearClassesAndIds
     | GGReadabilityParserOptionRemoveAudio
     | GGReadabilityParserOptionRemoveVideo
+    | GGReadabilityParserOptionClearHRefs
     ;
     
     return options;

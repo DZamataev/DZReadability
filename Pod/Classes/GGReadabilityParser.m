@@ -450,11 +450,11 @@ didReceiveResponse:(NSURLResponse *)response
 #if TARGET_OS_IPHONE
                     UIImage *image = [UIImage imageWithData:imageData];
                     if (image) {
-                        NSData *pngRepresentation = UIImagePNGRepresentation(image);
-                        if (pngRepresentation) {
-                            NSString *base64EncodedImage = [pngRepresentation base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+                        NSData *imageRepresentation = UIImageJPEGRepresentation(image, 0.0f);
+                        if (imageRepresentation) {
+                            NSString *base64EncodedImage = [imageRepresentation base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
                             if (base64EncodedImage) {
-                                NSString *dataSrc = [@"data:image/png;base64," stringByAppendingString:base64EncodedImage];
+                                NSString *dataSrc = [@"data:image/jpeg;base64," stringByAppendingString:base64EncodedImage];
                                 fixEl[@"src"] = dataSrc;
                             }
                         }
@@ -492,6 +492,17 @@ didReceiveResponse:(NSURLResponse *)response
         for ( HTMLElement * fixEl in els ) {
             [fixEl removeAttributeWithName:@"width"];
             [fixEl removeAttributeWithName:@"height"];
+        }
+    }
+    
+    // remove a hrefs
+    if ( options & GGReadabilityParserOptionClearHRefs )
+    {
+        // grab a tags
+        NSArray * els = [element nodesMatchingSelector:@"a"];
+        
+        for ( HTMLElement * fixEl in els ) {
+            [fixEl removeAttributeWithName:@"href"];
         }
     }
     

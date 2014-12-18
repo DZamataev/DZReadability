@@ -15,6 +15,7 @@ enum {
     GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes = 1 << 13,
     GGReadabilityParserOptionClearClassesAndIds = 1 << 14,
     GGReadabilityParserOptionRemoveAudio = 1 << 15,
-    GGReadabilityParserOptionRemoveVideo = 1 << 16
+    GGReadabilityParserOptionRemoveVideo = 1 << 16,
+    GGReadabilityParserOptionClearHRefs = 1 << 17
 };
 typedef NSInteger GGReadabilityParserOptions;
