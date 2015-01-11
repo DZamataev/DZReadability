@@ -1,40 +1,25 @@
 /*
  Copyright (c) 2012 Curtis Hard - GeekyGoodness
-*/
+ */
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import "GDataXMLNode.h"
 
+#import <HTMLReader.h>
+
+#import "DZReadability_constants.h"
 
 typedef void (^GGReadabilityParserCompletionHandler)( NSString * content );
 typedef void (^GGReadabilityParserErrorHandler)( NSError * error );
 
-enum {
-    GGReadabilityParserOptionNone = -1,
-    GGReadabilityParserOptionRemoveHeader = 1 << 2,
-    GGReadabilityParserOptionRemoveHeaders = 1 << 3,
-    GGReadabilityParserOptionRemoveEmbeds = 1 << 4,
-    GGReadabilityParserOptionRemoveIFrames = 1 << 5,
-    GGReadabilityParserOptionRemoveDivs = 1 << 6,
-    GGReadabilityParserOptionRemoveImages = 1 << 7,
-    GGReadabilityParserOptionFixImages = 1 << 8,
-    GGReadabilityParserOptionFixLinks = 1 << 9,
-    GGReadabilityParserOptionClearStyles = 1 << 10,
-    GGReadabilityParserOptionClearLinkLists = 1 << 11,
-    GGReadabilityParserOptionDownloadImages = 1 << 12,
-    GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes = 1 << 13
-}; 
-typedef NSInteger GGReadabilityParserOptions;
-
 @interface GGReadabilityParser : NSObject {
     
     float loadProgress;
-
+    
 @private
     GGReadabilityParserErrorHandler errorHandler;
     GGReadabilityParserCompletionHandler completionHandler;
     GGReadabilityParserOptions options;
     NSURL * URL;
+    NSURL * baseURL;
     long long dataLength;
     NSMutableData * responseData;
     NSURLConnection * URLConnection;
@@ -44,6 +29,7 @@ typedef NSInteger GGReadabilityParserOptions;
 
 @property ( nonatomic, assign ) float loadProgress;
 
+- (id)initWithOptions:(GGReadabilityParserOptions)parserOptions;
 - (id)initWithURL:(NSURL *)aURL
           options:(GGReadabilityParserOptions)parserOptions
 completionHandler:(GGReadabilityParserCompletionHandler)cHandler
@@ -53,4 +39,5 @@ completionHandler:(GGReadabilityParserCompletionHandler)cHandler
 - (void)render;
 - (void)renderWithString:(NSString *)string;
 
+- (HTMLElement *)processXMLDocument:(HTMLDocument *)XML baseURL:(NSURL *)theBaseURL error:(NSError **)error;
 @end

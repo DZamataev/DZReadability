@@ -1,9 +1,18 @@
-target 'DZReadability', :exclusive => true do
-  pod "DZReadability", :path => "../"
+def import_pods
+    pod "AFNetworking"
+    pod "DZReadability", :path => "../"
 end
 
-target 'Tests', :exclusive => true do
-  pod "DZReadability", :path => "../"
-
-  pod 'Kiwi'
+target :ios do
+    platform :ios, '6.0'
+    link_with 'DZReadability-iOS'
+    import_pods
+	pod 'MBProgressHUD'
 end
+
+target :osx do
+    platform :osx, '10.8'
+    link_with 'DZReadability-OSX'
+    import_pods
+end
+
