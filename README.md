@@ -9,34 +9,44 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-The use is simple, you have to create a new GGReadabilityParser object like this:
+The use is simple, you have to create a new DZReadability object like this (with URL of the document which then will be downloaded and parsed):
 ```
-GGReadabilityParser * readability = [[GGReadabilityParser alloc] initWithURL:[NSURL URLWithString:@"someURLHere"]
-                                                                   options:GGReadabilityParserOptionClearStyles|GGReadabilityParserOptionClearLinkLists|GGReadabilityParserOptionFixLinks|GGReadabilityParserOptionFixImages|GGReadabilityParserOptionRemoveHeader|GGReadabilityParserOptionRemoveIFrames
-                                                           completionHandler:^(NSString *content)
-{
-    // handle returned content
-}
-                                                                errorHandler:^(NSError *error) 
-{
-    // handle error returned
-}];
+	self.readability = [[DZReadability alloc] initWithURLToDownload:docUrl options:nil completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+		if (!error) {
+			NSLog(@"result content:\n%@", content);
+	    	// handle returned content
+		}
+		else {
+			// handle error
+		}
+	}];
+	[self.readability start];
 ```
-This will create object, it requires a NSURL for the URL, a list of options that you want the parser to carry out, a completion handler block and an error block.
-
-To get readability to parser just call:
-```
-[readability render];
-```
-If you want to check the load progress of it then you can simply check the loadProgress ivar - you can also bind to this.
 
 If you already got the contents which you want to parse you can call
 ```
-NSString *html = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]; // or any other html as string
-[readability renderWithString:html];
+	NSString *html = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]; // or any other html as string
+	readability = [[DZReadability alloc] initWithURL:docUrl rawDocumentContent:html options:nil completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+		if (!error) {
+			NSLog(@"result content:\n%@", content);
+	    	// handle returned content
+		}
+		else {
+			// handle error
+		}
+	}];
+	[readability start];
 ```
 
 ## Requirements
+```
+ARC
+OSX >= 10.7
+iOS >= 5.0
+
+dependency 'HTMLReader'
+```
+
 
 ## Installation
 
@@ -49,9 +59,9 @@ it, simply add the following line to your Podfile:
 
 Denis Zamataev, denis.zamataev@gmail.com
 
-Curtis Hard, https://github.com/curthard89
+Curtis Hard, https://github.com/curthard89 (https://github.com/curthard89/COCOA-Stuff/tree/master/GGReadabilityParser)
 
 ## License
 
-DZReadability is available under the MIT license. See the LICENSE file for more info.
+DZReadability s available under the MIT license. See the LICENSE file for more info.
 

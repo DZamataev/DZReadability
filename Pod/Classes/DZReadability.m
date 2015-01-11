@@ -2,7 +2,7 @@
 //  DZReadability
 //  Pods
 //
-//  Created by Admin on 04/12/14.
+//  Created by Denis Zamataev on 04/12/14.
 //
 //
 

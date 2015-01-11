@@ -2,6 +2,10 @@
  Copyright (c) 2012 Curtis Hard - GeekyGoodness
  */
 
+/*
+ Modified by Denis Zamataev. 2014
+ */
+
 #import "GGReadabilityParser.h"
 
 @interface GGReadabilityParser ( private )

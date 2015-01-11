@@ -1,6 +1,11 @@
 /*
  Copyright (c) 2012 Curtis Hard - GeekyGoodness
  */
+
+/*
+ Modified by Denis Zamataev. 2014
+ */
+
 #import <Foundation/Foundation.h>
 
 #import <HTMLReader.h>
