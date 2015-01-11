@@ -30,7 +30,7 @@
             options = optionsNum.integerValue;
         }
         else {
-            options = [self defaultOptions];
+            options = [DZReadability defaultOptions];
         }
         
         __weak typeof(self) welf = self;
@@ -56,7 +56,7 @@
     }
 }
 
-- (NSInteger)defaultOptions {
++ (NSInteger)defaultOptions {
     
     NSInteger options =
     GGReadabilityParserOptionClearLinkLists

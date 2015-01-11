@@ -10,7 +10,6 @@
 
 @interface DZViewController ()
 @property (strong, nonatomic) IBOutlet UITextView *textView;
-@property (strong, nonatomic) IBOutlet UISwitch *optSwtch_DownloadImages;
 - (IBAction)changeSampleTextAction:(id)sender;
 @end
 
@@ -36,37 +35,45 @@
     
     
     GGReadabilityParserOptions options =
+    [DZReadability defaultOptions];
+    /*
+     uncomment to experiment with options
+     
     GGReadabilityParserOptionClearLinkLists
-    |GGReadabilityParserOptionClearStyles
-    |GGReadabilityParserOptionFixLinks
-    |GGReadabilityParserOptionFixImages
-    |GGReadabilityParserOptionRemoveIFrames
-    //|GGReadabilityParserOptionRemoveDivs
-    //|GGReadabilityParserOptionRemoveEmbeds
-    |GGReadabilityParserOptionRemoveHeader
-    //|GGReadabilityParserOptionRemoveHeaders
-    |GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes
+    | GGReadabilityParserOptionClearStyles
+    | GGReadabilityParserOptionFixImages
+    | GGReadabilityParserOptionFixLinks
+    //    | GGReadabilityParserOptionRemoveDivs
+    | GGReadabilityParserOptionRemoveEmbeds
+    //    | GGReadabilityParserOptionRemoveHeader
+    //    | GGReadabilityParserOptionRemoveHeaders
+    | GGReadabilityParserOptionRemoveIFrames
+    //    | GGReadabilityParserOptionRemoveImages
+    | GGReadabilityParserOptionDownloadImages
+    | GGReadabilityParserOptionRemoveImageWidthAndHeightAttributes
+    | GGReadabilityParserOptionClearClassesAndIds
+    | GGReadabilityParserOptionRemoveAudio
+    | GGReadabilityParserOptionRemoveVideo
+    | GGReadabilityParserOptionClearHRefs
     ;
+     */
     
-    if (self.optSwtch_DownloadImages.enabled) {
-        options = options | GGReadabilityParserOptionDownloadImages;
-    }
+    NSNumber *optionsNum = @(options);
+    
     
     
     NSURL *url = [NSURL URLWithString:[self.textView.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     void (^handleParseURL)() = ^void() {
-        GGReadabilityParser *parser = [[GGReadabilityParser alloc] initWithURL:url
-                                                                       options:options
-                                                             completionHandler:^(NSString *content)
-                                       {
-                                           [webView loadHTMLString:content baseURL:url];
-                                       }
-                                                                  errorHandler:^(NSError *error)
-                                       {
-                                           NSLog(@"Failed rendering page from url: %@\nError:\n%@", url.absoluteString, error);
-                                       }];
-        [parser render];
-
+        DZReadability *readability = [[DZReadability alloc] initWithURLToDownload:url options:optionsNum completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+            if (!error) {
+            NSLog(@"result content:\n%@", content);
+                [webView loadHTMLString:content baseURL:url];
+            }
+            else {
+                NSLog(@"Failed rendering page from url: %@\nError:\n%@", url.absoluteString, error);
+            }
+        }];
+        [readability start];
     };
     
     
@@ -75,18 +82,16 @@
     // definately we must know from what URL the HTML document came from
     NSURL *sampleURL = [NSURL URLWithString:@"https://google.com"];
     void (^handleParseText)() = ^void() {
-        GGReadabilityParser *parser = [[GGReadabilityParser alloc] initWithURL:sampleURL
-                                                                       options:options
-                                                             completionHandler:^(NSString *content)
-                                       {
-                                           [webView loadHTMLString:content baseURL:nil];
-                                       }
-                                                                  errorHandler:^(NSError *error)
-                                       {
-                                           NSLog(@"Failed rendering HTML page with error:\n%@", error);
-                                       }];
-        [parser renderWithString:text];
-        
+        DZReadability *readability = [[DZReadability alloc] initWithURL:sampleURL rawDocumentContent:text options:optionsNum completionHandler:^(DZReadability *sender, NSString *content, NSError *error) {
+            if (!error) {
+                NSLog(@"result content:\n%@", content);
+                [webView loadHTMLString:content baseURL:url];
+            }
+            else {
+                NSLog(@"Failed rendering page from url: %@\nError:\n%@", url.absoluteString, error);
+            }
+        }];
+        [readability start];
     };
     
     NSDictionary *knownSegueHandlers = @{@"parseAsURL": [handleParseURL copy], @"parseAsHTML": [handleParseText copy]};
@@ -103,7 +108,7 @@
     
     NSString *path = nil;
     while (!path) {
-        NSString *sampleName = [NSString stringWithFormat:@"Sample%i",++i];
+        NSString *sampleName = [NSString stringWithFormat:@"Sample%li",(long)++i];
         path = [[NSBundle mainBundle] pathForResource:sampleName ofType:@"html"];
         if (!path) {
             i = 0;

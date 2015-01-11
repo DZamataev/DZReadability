@@ -27,5 +27,5 @@ typedef void (^DZReadabilityCompletionHandler)( DZReadability *sender, NSString 
 - (void)start;
 
 /* Default parsing options which are used when instantiating with nil options. */
-- (NSInteger)defaultOptions;
++ (NSInteger)defaultOptions;
 @end
