@@ -25,15 +25,7 @@ Pod::Spec.new do |s|
   s.ios.platform = :ios, "5.0"
   s.osx.platform = :osx, "10.7"
 
-  s.default_subspec = 'Core'
-  
   s.requires_arc = true
-  
-  s.subspec 'Core' do |c|
-    c.source_files = 'Pod/Classes'
-    c.requires_arc = true
-    c.dependency 'HTMLReader'
-  end
-  
-
+  s.source_files = 'Pod/Classes'
+  s.dependency 'HTMLReader'
 end
