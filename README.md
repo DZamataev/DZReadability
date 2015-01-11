@@ -1,6 +1,6 @@
 # DZReadability
 
-[![CI Status](http://img.shields.io/travis/Denis Zamataev/DZReadability.svg?style=flat)](https://travis-ci.org/Denis Zamataev/DZReadability)
+[![Build Status](https://travis-ci.org/DZamataev/DZReadability.svg?branch=master)](https://travis-ci.org/DZamataev/DZReadability)
 [![Version](https://img.shields.io/cocoapods/v/DZReadability.svg?style=flat)](http://cocoadocs.org/docsets/DZReadability)
 [![License](https://img.shields.io/cocoapods/l/DZReadability.svg?style=flat)](http://cocoadocs.org/docsets/DZReadability)
 [![Platform](https://img.shields.io/cocoapods/p/DZReadability.svg?style=flat)](http://cocoadocs.org/docsets/DZReadability)
