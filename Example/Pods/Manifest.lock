@@ -20,7 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - DZReadability (0.2.0):
+  - DZReadability (0.2.1):
     - HTMLReader
   - HTMLReader (0.5.9)
   - MBProgressHUD (0.9)
@@ -36,7 +36,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
-  DZReadability: 7004c9ce525da70e15a0bb32260740822d9145c2
+  DZReadability: 2e1353538e9fe091eaae767ccf020857ec0118ac
   HTMLReader: 0833fa2af5fd2019bc2d7a6e8066a07fd0fe87f1
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
 

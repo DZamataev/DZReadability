@@ -52,7 +52,7 @@
 #define COCOAPODS_POD_AVAILABLE_DZReadability
 #define COCOAPODS_VERSION_MAJOR_DZReadability 0
 #define COCOAPODS_VERSION_MINOR_DZReadability 2
-#define COCOAPODS_VERSION_PATCH_DZReadability 0
+#define COCOAPODS_VERSION_PATCH_DZReadability 1
 
 // HTMLReader
 #define COCOAPODS_POD_AVAILABLE_HTMLReader

@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "DZReadability"
-  s.version          = "0.2.0"
+  s.version          = "0.2.1"
   s.summary          = "iOS and OSX adoption of Readability algorithm which clears HTML"
   s.description      = <<-DESC
                        Adoption of Readability algorithm which works on iOS and OSX and is capable of clearing the messy HTML document (e.g. site) into nice and readable page.
@@ -22,9 +22,9 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/DZamataev/DZReadability.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/dzamataev'
 
-  s.ios.platform = :ios, "5.0"
-  s.osx.platform = :osx, "10.7"
-
+  s.ios.deployment_target = '5.0'
+  s.osx.deployment_target = '10.7'
+  
   s.requires_arc = true
   s.source_files = 'Pod/Classes'
   s.dependency 'HTMLReader'
