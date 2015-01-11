@@ -22,9 +22,9 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/DZamataev/DZReadability.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/dzamataev'
 
-  s.ios.platform = :ios, "5.0"
-  s.osx.platform = :osx, "10.7"
-
+  s.ios.deployment_target = '5.0'
+  s.osx.deployment_target = '10.7'
+  
   s.requires_arc = true
   s.source_files = 'Pod/Classes'
   s.dependency 'HTMLReader'
