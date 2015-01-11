@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EB564412C4E28E8EB1A4C127"
+               BuildableName = "libPods-ios.a"
+               BlueprintName = "Pods-ios"
+               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "846FF4371A30BB47004D4F51"
                BuildableName = "DZReadability-iOS.app"
                BlueprintName = "DZReadability-iOS"
