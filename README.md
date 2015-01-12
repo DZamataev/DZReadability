@@ -76,6 +76,9 @@ You would probably need CSS styles to make the document look good. Basically CSS
 Unfortunately i cannot provide you the exact CSS styles and my HTML template yet cuz they are not my own IP. Have to figure it out yourself. Consider pull requesting. Thanks!
 
 
+## Screenshots
+[![screenshot01-iOS](https://raw.githubusercontent.com/DZamataev/DZReadability/master/screenshots/screenshot_DZReadability_01.png)](https://raw.githubusercontent.com/DZamataev/DZReadability/master/screenshots/screenshot_DZReadability_01.png)
+
 ## Author
 
 Denis Zamataev, denis.zamataev@gmail.com
