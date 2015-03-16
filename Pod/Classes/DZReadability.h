@@ -23,6 +23,9 @@ typedef void (^DZReadabilityCompletionHandler)( DZReadability *sender, NSString 
 /* Instantiate parser with HTML string to parse. Options is @(GGReadabilityParserOptions) mask. Nil for default options. */
 - (instancetype)initWithURL:(NSURL*)url rawDocumentContent:(NSString*)rawDocumentContent options:(NSNumber*)optionsNum completionHandler:(DZReadabilityCompletionHandler)completionBlock;
 
+/* Start parsing using url to download and parse. Options is @(GGReadabilityParserOptions) mask. Nil for default options. */
+- (void)startWithURLToDownload:(NSURL*)url options:(NSNumber*)optionsNum completionHandler:(DZReadabilityCompletionHandler)completionBlock;
+
 /* Start parsing. All the heavy-lifting is done on background thread, but completionHandler then invokes on main thread. */
 - (void)start;
 
