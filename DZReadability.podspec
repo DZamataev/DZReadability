@@ -27,5 +27,5 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
   s.source_files = 'Pod/Classes'
-  s.dependency 'HTMLReader', :git => 'https://github.com/hsienchiaolee/HTMLReader.git', :commit => '51f81a6'
+  s.dependency 'HTMLReader'
 end
