@@ -45,6 +45,20 @@
     return self;
 }
 
+- (void)startWithURLToDownload:(NSURL *)url options:(NSNumber *)optionsNum completionHandler:(DZReadabilityCompletionHandler)completionBlock {
+    self.url = url;
+    NSInteger options = optionsNum != nil ? optionsNum.integerValue : [DZReadability defaultOptions];
+
+    __weak id welf = self;
+
+    self.parser = [[GGReadabilityParser alloc] initWithURL:url options:options completionHandler:^(NSString *content) {
+        completionBlock(welf, content, nil);
+    } errorHandler:^(NSError *error) {
+        completionBlock(welf, nil, error);
+    }];
+    [self start];
+}
+
 - (void)start {
     NSParameterAssert(self.parser);
     
