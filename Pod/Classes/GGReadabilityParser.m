@@ -373,7 +373,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSURL *fixUrl = baseURL ? baseURL : URL;
     NSString * fixUrlString = [NSString stringWithFormat:@"%@://%@",[fixUrl scheme],[fixUrl host]];
     
-    for( NSDictionary * dict in elementsToRemove )
+    for( NSDictionary * dict in elementsToFix )
     {
         // grab the elements
         NSString *tagName = [dict objectForKey:@"tagName"];
@@ -388,7 +388,7 @@ didReceiveResponse:(NSURLResponse *)response
                 [[attribute substringToIndex:2] isEqualToString:@"//"] )
             {
                 // needs fixing
-                NSString * newAttributeString = [NSString stringWithFormat:@"%@:%@",[baseURL scheme],attribute];
+                NSString * newAttributeString = [NSString stringWithFormat:@"%@:%@",[fixUrl scheme],attribute];
                 fixEl[attributeName] = newAttributeString;
             }
             else if( [attribute length] != 0 &&
@@ -451,7 +451,7 @@ didReceiveResponse:(NSURLResponse *)response
                 }
                 
                 if (imageData) {
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
                     UIImage *image = [UIImage imageWithData:imageData];
                     if (image) {
                         NSData *imageRepresentation = UIImageJPEGRepresentation(image, 0.0f);
