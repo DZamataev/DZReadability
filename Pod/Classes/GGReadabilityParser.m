@@ -648,7 +648,7 @@ didReceiveResponse:(NSURLResponse *)response
             tagParent = nil;
         } else {
             // remove any br tags directly next to each other
-            NSArray * brs = [tagParent nodesMatchingSelector:@"br[preceding-sibling::br[1]]"];
+            NSArray * brs = [tagParent nodesMatchingSelector:@"br + br"];
 //            NSArray * brs = [tagParent nodesForXPath:@".//br[preceding-sibling::br[1]]"
 //                                               error:error];
             for( HTMLElement * br in brs )
