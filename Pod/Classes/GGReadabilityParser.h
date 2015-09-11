@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <HTMLReader.h>
+#import "HTMLReader.h"
 
 #import "DZReadability_constants.h"
 
